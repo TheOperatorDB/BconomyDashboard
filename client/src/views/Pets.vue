@@ -44,8 +44,8 @@
       <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
     </div>
 
-    <div v-if="currentPet && !loading.pets" class="bg-white shadow rounded-lg overflow-hidden">
-      <div class="px-6 py-4 bg-gradient-to-r from-purple-50 to-pink-50">
+    <div v-if="currentPet && !loading.pets && !loading.items" class="bg-white shadow rounded-lg overflow-hidden">
+      <div class="p-2 bg-gradient-to-r from-purple-50 to-pink-50">
         <div class="flex items-center justify-between">
           <div class="flex items-center">
             <div class="ml-4">
@@ -131,47 +131,66 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import { useBconomyDataStore } from '../stores/marketData'
+import { ref, reactive } from 'vue'
+import axios from 'axios'
 
-const store = useBconomyDataStore()
 const searchPetId = ref('')
+const currentPet = ref(null)
+const itemsData = ref([])
+const loading = reactive({ pets: false, items: false })
+const error = reactive({ pets: '', items: '' })
 
-const { 
-  petsData, 
-  itemsData,
-  loading, 
-  error, 
-  fetchPetData,
-  fetchAllItemsData
-} = store
-
-const currentPet = computed(() => {
-  if (!searchPetId.value) return null
-  return petsData[searchPetId.value] || null
-})
 
 const searchPet = async () => {
   if (!searchPetId.value) return
-  
+
   const petId = parseInt(searchPetId.value)
   if (isNaN(petId)) {
     alert('Please enter a valid pet ID number')
     return
   }
-  
+
   await Promise.all([
     fetchPetData(petId),
     fetchAllItemsData()
   ])
 }
 
-const getItemName = (itemId) => {
-  if (!itemsData || !Array.isArray(itemsData)) {
-    return `Item #${itemId}`
+const fetchPetData = async (petId) => {
+  loading.pets = true
+  error.pets = ''
+
+  try {
+    const response = await axios.get(`/api/pets/${petId}`)
+    currentPet.value = response.data.data 
+  } catch (error) {
+    error.pets = error.response?.data?.error || 'Failed to fetch pet data'
+    currentPet.value = null
+  } finally {
+    loading.pets = false
   }
+}
+
+
+const fetchAllItemsData = async () => {
+  if (itemsData.value.length > 0) return;
+
+  loading.items = true
+  error.items = ''
   
-  const item = itemsData.find(item => item.id === itemId)
+  try {
+    const response = await axios.get(`/api/items`)
+    itemsData.value = response.data.data
+    lastUpdated = new Date().toISOString()
+  } catch (error) {
+    error.items = error.response?.data?.error || 'Failed to fetch items data'
+  } finally {
+    loading.items = false
+  }
+}
+
+const getItemName = (itemId) => {
+  const item = itemsData.value.find(item => item.id === itemId)
   return item ? item.name : `Item #${itemId}`
 }
 

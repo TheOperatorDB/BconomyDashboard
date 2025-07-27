@@ -69,21 +69,6 @@ export const useBconomyDataStore = defineStore('bconomyData', {
       }
     },
 
-    async fetchItemData(itemId) {
-      this.loading.items = true
-      this.error.items = null
-      
-      try {
-        const response = await axios.get(`/api/items/${itemId}`)
-        this.itemsData[itemId] = response.data.data
-        this.lastUpdated = new Date().toISOString()
-      } catch (error) {
-        this.error.items = error.response?.data?.error || 'Failed to fetch item data'
-        console.error('Error fetching item data:', error)
-      } finally {
-        this.loading.items = false
-      }
-    },
 
     async fetchAllItemsData() {
       this.loading.items = true
@@ -130,22 +115,6 @@ export const useBconomyDataStore = defineStore('bconomyData', {
         console.error('Error fetching market data:', error)
       } finally {
         this.loading.market = false
-      }
-    },
-
-    async fetchAdventureData(adventureId) {
-      this.loading.adventures = true
-      this.error.adventures = null
-      
-      try {
-        const response = await axios.get(`/api/adventures/${adventureId}`)
-        this.adventuresData[adventureId] = response.data.data
-        this.lastUpdated = new Date().toISOString()
-      } catch (error) {
-        this.error.adventures = error.response?.data?.error || 'Failed to fetch adventure data'
-        console.error('Error fetching adventure data:', error)
-      } finally {
-        this.loading.adventures = false
       }
     },
 
