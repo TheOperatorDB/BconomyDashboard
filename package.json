@@ -2,28 +2,39 @@
   "name": "bconomy-dashboard",
   "version": "1.0.0",
   "description": "Bconomy game data dashboard with Vue.js frontend and Node.js backend",
-  "main": "server/index.js",
+  "type": "module",
+  "main": "server.js",
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "nodemon server/index.js",
+    "server": "nodemon server/server.js",
     "client": "cd client && npm run dev",
     "build": "cd client && npm run build",
     "install-all": "npm install && cd client && npm install",
-    "start": "node server/index.js"
+    "start": "node server.js"
   },
-  "keywords": ["bconomy", "game", "dashboard", "vue", "node", "express"],
-  "author": "Your Name",
+  "keywords": [
+    "bconomy",
+    "game",
+    "dashboard",
+    "vue",
+    "node",
+    "express"
+  ],
+  "author": "TheOperatorDB",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.18.2",
+    "axios": "^1.6.0",
+    "better-sqlite3": "^12.2.0",
+    "bignumber.js": "^9.3.1",
+    "compression": "^1.7.4",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
-    "axios": "^1.6.0",
-    "helmet": "^7.1.0",
-    "compression": "^1.7.4"
+    "express": "^4.18.2",
+    "floating-vue": "^5.2.2",
+    "helmet": "^7.1.0"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1",
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.0.1"
   }
-} 
+}
