@@ -11,6 +11,8 @@ import { getPetsByUserId } from "./pets.js";
 const router = express.Router();
 
 async function getUserPerks(perks) {
+  if (!perks || Object.keys(perks).length === 0) return [];
+
   var sanitizedPerks = [];
 
   const allPerkKeys = Object.entries(getPerkData());
@@ -30,6 +32,8 @@ async function getUserPerks(perks) {
 }
 
 async function getUserEffects(effects) {
+  if (!effects || Object.keys(effects).length === 0) return [];
+
   var sanitizedEffects = [];
 
   Object.entries(effects).forEach(([key, value]) => {
@@ -58,6 +62,7 @@ async function getUserEffects(effects) {
 
 async function getUserProfile(userId) {
   const userProfile = await fetchBconomyResource("user", userId);
+  if (!userProfile || userProfile?.error) return null;
 
   const profile = {
     id: userProfile?.id || userId,
@@ -151,6 +156,7 @@ async function getMarketInventory(userId, buddyId) {
 
 async function getUser(userId) {
   const user = await getUserProfile(userId);
+  if (!user || user?.error) return null;
 
   let pets = await getPetsByUserId(userId, user.profile.buddyId);
 
