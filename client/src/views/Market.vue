@@ -272,7 +272,9 @@ const filteredItems = computed(() => {
 
 const latestValue = computed(() => {
   if (chartData.value.length === 0) return null;
-  return chartData.value[chartData.value.length - 1]?.value?.toLocaleString();
+  return chartData.value[chartData.value.length - 1]?.value?.toLocaleString(
+    "en-US"
+  );
 });
 
 function calculatePriceChange(hoursAgo) {
@@ -287,7 +289,10 @@ function calculatePriceChange(hoursAgo) {
   const percent = (diff / pastValue) * 100;
 
   return {
-    value: diff > 0 ? `+${diff.toLocaleString()}` : diff.toLocaleString(),
+    value:
+      diff > 0
+        ? `+${diff.toLocaleString("en-US")}`
+        : diff.toLocaleString("en-US"),
     percent: percent > 0 ? `+${percent.toFixed(2)}%` : `${percent.toFixed(2)}%`,
   };
 }
