@@ -72,7 +72,8 @@ onMounted(() => {
     timeScale: {
       borderColor: "#e5e7eb",
       timeVisible: true,
-      secondsVisible: false,
+      lockVisibleTimeRangeOnResize: true,
+      rightBarStaysOnScroll: true,
     },
     rightPriceScale: {
       borderColor: "#e5e7eb",
@@ -80,6 +81,7 @@ onMounted(() => {
     localization: {
       priceFormatter: (price) => `${price.toLocaleString("en-US")} BC`,
       dateFormat: "yyyy-MM-dd",
+      timeFormat: "HH:mm",
     },
   };
 
@@ -102,8 +104,10 @@ onMounted(() => {
     crosshairMarkerRadius: 4,
     crosshairMarkerBorderColor: "#2563eb",
     crosshairMarkerBackgroundColor: "#fff",
+    lineType: 2,
+    pointMarkersVisible: false,
   };
-  // Merge series options without mutating props
+
   const mergedProps = {
     ...props,
     seriesOptions: {
@@ -152,7 +156,7 @@ watch(
 
 watch(
   () => props.type,
-  (newType) => {
+  () => {
     if (series && chart) {
       chart.removeSeries(series);
     }
