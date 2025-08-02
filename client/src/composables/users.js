@@ -1,6 +1,8 @@
 import { ref } from "vue";
 import axios from "axios";
 
+const apiUrl = import.meta.env.VITE_API_URL || "";
+
 export function users() {
   const usersLoading = ref(false);
   const usersError = ref("");
@@ -25,7 +27,7 @@ export function users() {
     var currentUser = null;
 
     try {
-      const response = await axios.get(`/api/users/${userId}`);
+      const response = await axios.get(`${apiUrl}/api/users/${userId}`);
       currentUser = response.data;
     } catch (err) {
       if (err.response?.status === 404) {

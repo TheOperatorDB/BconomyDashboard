@@ -1,6 +1,8 @@
 import { ref } from "vue";
 import axios from "axios";
 
+const apiUrl = import.meta.env.VITE_API_URL || "";
+
 export function market() {
   const marketLoading = ref(false);
   const marketError = ref("");
@@ -15,7 +17,7 @@ export function market() {
     var marketValues = null;
 
     try {
-      const response = await axios.get(`/api/market/${itemId}`);
+      const response = await axios.get(`${apiUrl}/api/market/${itemId}`);
       marketValues = response.data;
     } catch (err) {
       if (err.response?.status === 404) {

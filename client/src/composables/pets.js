@@ -1,6 +1,8 @@
 import { ref } from "vue";
 import axios from "axios";
 
+const apiUrl = import.meta.env.VITE_API_URL || "";
+
 export function pets() {
   const petsLoading = ref(false);
   const petsError = ref("");
@@ -25,7 +27,7 @@ export function pets() {
     var currentPet = null;
 
     try {
-      const response = await axios.get(`/api/pets/${petId}`);
+      const response = await axios.get(`${apiUrl}/api/pets/${petId}`);
       currentPet = response.data;
     } catch (err) {
       if (err.response?.status === 404) {
