@@ -1,7 +1,17 @@
 <template>
-  <div id="app" class="min-h-screen bg-gray-50">
+  <div
+    id="app"
+    :class="['min-h-screen', isDark ? 'dark bg-gray-700' : 'bg-gray-50']"
+  >
     <!-- Navigation -->
-    <nav class="bg-white shadow-sm border-b border-gray-200">
+    <nav
+      :class="[
+        isDark
+          ? 'bg-gray-900 shadow-sm border-b border-gray-800'
+          : 'bg-white shadow-sm border-b border-gray-200',
+        'transition-colors duration-300',
+      ]"
+    >
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
           <div class="flex items-center gap-2">
@@ -10,7 +20,7 @@
               alt="Bconomy Logo"
               class="w-8 h-8 object-contain"
             />
-            <h1 class="text-xl font-bold text-gray-900">
+            <h1 class="text-xl font-bold text-gray-900 dark:text-gray-100">
               <a
                 href="https://bconomy.net/play/"
                 target="_blank"
@@ -22,14 +32,22 @@
             </h1>
           </div>
           <div class="flex items-center space-x-4">
+            <button
+              @click="toggleDark"
+              class="px-3 py-2 rounded-md text-sm font-medium transition-colors bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600"
+              title="Toggle dark mode"
+            >
+              <span v-if="isDark">🌙</span>
+              <span v-else>☀️</span>
+            </button>
             <router-link
               v-for="item in navigation"
               :key="item.name"
               :to="item.href"
               :class="[
                 $route.path === item.href
-                  ? 'bg-gray-100 text-gray-900'
-                  : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50',
+                  ? 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100'
+                  : 'text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800',
                 'px-3 py-2 rounded-md text-sm font-medium transition-colors',
               ]"
             >
@@ -47,6 +65,7 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from "vue";
 import "floating-vue/dist/style.css";
 
 const navigation = [
@@ -55,6 +74,25 @@ const navigation = [
   { name: "Pets", href: "/pets" },
   { name: "Database", href: "/database" },
 ];
+
+const isDark = ref(false);
+
+function toggleDark() {
+  isDark.value = !isDark.value;
+  document.documentElement.classList.toggle("dark", isDark.value);
+  localStorage.setItem("theme", isDark.value ? "dark" : "light");
+}
+
+onMounted(() => {
+  const saved = localStorage.getItem("theme");
+  if (saved === "dark") {
+    isDark.value = true;
+    document.documentElement.classList.add("dark");
+  } else {
+    isDark.value = false;
+    document.documentElement.classList.remove("dark");
+  }
+});
 </script>
 
 <style>

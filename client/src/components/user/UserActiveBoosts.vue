@@ -2,8 +2,8 @@
   <CollapsibleModule
     v-model:open="isBoostsOpen"
     title="🚀 Active Boosts"
-    headerBg="bg-gradient-to-r from-red-50 to-orange-50"
-    class="bg-white shadow rounded-lg overflow-hidden mt-6"
+    headerBg="bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-900 dark:to-orange-900"
+    class="bg-white dark:bg-gray-900 shadow rounded-lg overflow-hidden mt-6"
   >
     <div v-show="isBoostsOpen" class="transition-all duration-300 ease-in-out">
       <div v-if="activeBoosts && activeBoosts.length > 0">
@@ -18,14 +18,14 @@
               :class="[
                 'inline-flex items-center px-2 py-1 rounded text-xs font-medium',
                 row.action === 'Mining'
-                  ? 'bg-yellow-100 text-yellow-800'
+                  ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
                   : row.action === 'Hunting'
-                    ? 'bg-green-100 text-green-800'
+                    ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
                     : row.action === 'Exploring'
-                      ? 'bg-blue-100 text-blue-800'
+                      ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
                       : row.action === 'Fishing'
-                        ? 'bg-cyan-100 text-cyan-800'
-                        : 'bg-orange-100 text-orange-800',
+                        ? 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200'
+                        : 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200',
               ]"
             >
               {{ row.action }}
@@ -35,12 +35,12 @@
             <span
               :class="[
                 row.multiplier === 2
-                  ? 'text-purple-700'
+                  ? 'text-purple-700 dark:text-purple-300'
                   : row.multiplier === 3
-                    ? 'text-blue-700'
+                    ? 'text-blue-700 dark:text-blue-300'
                     : row.multiplier === 5
-                      ? 'text-red-700'
-                      : 'text-green-700',
+                      ? 'text-red-700 dark:text-red-300'
+                      : 'text-green-700 dark:text-green-300',
               ]"
             >
               x{{ row.multiplier }}
@@ -51,7 +51,12 @@
           </template>
         </TableModule>
       </div>
-      <div v-else class="p-6 text-gray-500 text-sm">No active boosts.</div>
+      <div
+        v-else
+        class="p-6 text-gray-500 dark:bg-gray-800 dark:text-gray-400 text-sm"
+      >
+        No active boosts.
+      </div>
     </div>
   </CollapsibleModule>
 </template>

@@ -2,8 +2,8 @@
   <CollapsibleModule
     v-model:open="isMarketInventoryOpen"
     title="⚖️ Market Inventory"
-    headerBg="bg-gradient-to-r from-purple-50 to-pink-50"
-    class="bg-white shadow rounded-lg overflow-hidden mt-6"
+    headerBg="bg-gradient-to-r from-pink-50 to-red-50 dark:from-pink-900 dark:to-red-900"
+    class="bg-white dark:bg-gray-900 shadow rounded-lg overflow-hidden mt-6"
   >
     <div
       v-show="isMarketInventoryOpen"
@@ -29,14 +29,16 @@
             <span v-else class="text-green-600 text-lg">{{
               getItemEmoji(row.emoji)
             }}</span>
-            <div class="pl-3 text-xs text-gray-900 font-medium">
+            <div
+              class="pl-3 text-xs text-gray-900 dark:text-gray-100 font-medium"
+            >
               {{ row.itemName || `Item #${row.itemId}` }}
             </div>
           </div>
         </template>
         <template #totalMarketValue="{ row }">
           <div
-            class="gap-2 flex items-center text-xs font-medium text-gray-700"
+            class="gap-2 flex items-center text-xs font-medium text-gray-700 dark:text-gray-200"
           >
             {{ row.totalMarketValue }} BC
           </div>

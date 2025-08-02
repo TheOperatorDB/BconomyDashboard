@@ -1,11 +1,13 @@
 <template>
   <div class="space-y-6">
-    <div class="bg-white shadow rounded-lg p-6">
+    <div
+      class="dark:bg-gray-800 shadow rounded-lg p-6 border border-gray-100 dark:border-gray-800"
+    >
       <div class="flex items-center space-x-4">
         <div class="flex-1">
           <label
             for="user-id"
-            class="block text-sm font-medium text-gray-700 mb-2"
+            class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2"
           >
             Search a user
           </label>
@@ -14,7 +16,7 @@
             v-model="userId"
             type="number"
             placeholder="Enter user ID and press Enter"
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
             @keyup.enter="searchUserById"
           />
         </div>
@@ -24,7 +26,7 @@
     <!-- Error -->
     <div
       v-if="usersError"
-      class="bg-red-50 border border-red-200 rounded-md p-4"
+      class="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-800 rounded-md p-4"
     >
       <div class="flex">
         <div class="flex-shrink-0">
@@ -41,10 +43,10 @@
           </svg>
         </div>
         <div class="ml-3">
-          <h3 class="text-sm font-medium text-red-800">
+          <h3 class="text-sm font-medium text-red-800 dark:text-red-200">
             Error loading user data
           </h3>
-          <div class="mt-2 text-sm text-red-700">
+          <div class="mt-2 text-sm text-red-700 dark:text-red-300">
             <p>{{ usersError }}</p>
           </div>
         </div>
@@ -54,7 +56,7 @@
     <!-- Loading -->
     <div v-if="usersLoading" class="flex justify-center items-center py-12">
       <div
-        class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"
+        class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 dark:border-purple-400"
       ></div>
     </div>
 
@@ -63,9 +65,9 @@
       v-if="!userProfile && !usersLoading && !usersError"
       class="text-center py-12"
     >
-      <div class="text-gray-500">
+      <div class="text-gray-500 dark:text-gray-400">
         <svg
-          class="mx-auto h-12 w-12 text-gray-400"
+          class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -77,10 +79,10 @@
             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
           />
         </svg>
-        <h3 class="mt-2 text-sm font-medium text-gray-900">
+        <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">
           Search for a user
         </h3>
-        <p class="mt-1 text-sm text-gray-500">
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
           Enter a user ID above and press Enter to view its details.
         </p>
       </div>

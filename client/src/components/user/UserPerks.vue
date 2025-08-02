@@ -2,27 +2,33 @@
   <CollapsibleModule
     v-model:open="isPerksOpen"
     title="⭐ Perks"
-    headerBg="bg-gradient-to-r from-yellow-50 to-green-50"
-    class="bg-white shadow rounded-lg overflow-hidden mt-6"
+    headerBg="bg-gradient-to-r from-yellow-50 to-green-50 dark:from-yellow-900 dark:to-green-900"
+    class="bg-white dark:bg-gray-900 shadow rounded-lg overflow-hidden mt-6"
   >
     <div v-if="perks && perks.length > 0">
       <TableModule :columns="perksColumns" :rows="perks" rowKey="title">
         <template #level="{ row }">
           <div class="min-w-56 flex flex-col items-start">
             <div
-              class="w-full min-w-full h-3 bg-gray-200 rounded-full overflow-hidden"
+              class="w-full min-w-full h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden"
             >
               <div
                 class="h-3 rounded-full"
                 :style="{
                   width: (row.level / (row.maxLevel || 1)) * 100 + '%',
                   background:
-                    row.level === row.maxLevel ? '#a78bfa' : '#6366f1',
+                    row.level === row.maxLevel
+                      ? $attrs['class'] && $attrs['class'].includes('dark')
+                        ? '#c4b5fd'
+                        : '#a78bfa'
+                      : $attrs['class'] && $attrs['class'].includes('dark')
+                        ? '#818cf8'
+                        : '#6366f1',
                   transition: 'width 0.3s',
                 }"
               ></div>
             </div>
-            <div class="text-xs text-gray-500 mt-1">
+            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">
               {{ row.level }} / {{ row.maxLevel }}
             </div>
           </div>
@@ -32,7 +38,12 @@
         </template>
       </TableModule>
     </div>
-    <div v-else class="p-6 text-gray-500 text-sm">No perks available.</div>
+    <div
+      v-else
+      class="p-6 text-gray-500 dark:bg-gray-800 dark:text-gray-400 text-sm"
+    >
+      No perks available.
+    </div>
   </CollapsibleModule>
 </template>
 

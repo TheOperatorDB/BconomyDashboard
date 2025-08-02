@@ -1,17 +1,19 @@
 <template>
-  <div class="bg-white shadow rounded-lg overflow-hidden mt-6">
+  <div
+    class="bg-white dark:bg-gray-900 shadow rounded-lg overflow-hidden mt-6 border-2 border-gray-100 dark:border-gray-800"
+  >
     <div
       class="flex items-center justify-between p-6 cursor-pointer"
       :class="headerBg"
       @click="toggle"
     >
-      <h3 class="text-lg font-semibold text-gray-900">
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
         <slot name="icon"> </slot>
         {{ title }}
       </h3>
       <svg
         :class="[
-          'w-5 h-5 text-gray-500 transform transition-transform duration-300',
+          'w-5 h-5 text-gray-500 dark:text-gray-100 transform transition-transform duration-300',
           isOpen ? 'rotate-180' : 'rotate-0',
         ]"
         fill="none"
@@ -39,7 +41,7 @@ import { ref, watch } from "vue";
 const props = defineProps({
   title: { type: String, required: true },
   open: { type: Boolean, default: false },
-  headerBg: { type: String, default: "" }, // e.g. 'bg-gradient-to-r from-yellow-50 to-green-50'
+  headerBg: { type: String, default: "" },
 });
 const emit = defineEmits(["update:open"]);
 

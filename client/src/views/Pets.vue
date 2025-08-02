@@ -1,11 +1,13 @@
 <template>
-  <div class="space-y-6">
-    <div class="bg-white shadow rounded-lg p-6">
+  <div class="space-y-6 bg-gray-50 dark:bg-gray-700">
+    <div
+      class="dark:bg-gray-800 shadow rounded-lg p-6 border border-gray-100 dark:border-gray-800"
+    >
       <div class="flex items-center space-x-4">
         <div class="flex-1">
           <label
             for="pet-id"
-            class="block text-sm font-medium text-gray-700 mb-2"
+            class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2"
           >
             Search a pet
           </label>
@@ -14,7 +16,7 @@
             v-model="petId"
             type="number"
             placeholder="Enter pet ID and press Enter"
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
             @keyup.enter="searchPetById"
           />
         </div>
@@ -24,7 +26,7 @@
     <!-- Error -->
     <div
       v-if="petsError"
-      class="bg-red-50 border border-red-200 rounded-md p-4"
+      class="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-800 rounded-md p-4"
     >
       <div class="flex">
         <div class="flex-shrink-0">
@@ -41,10 +43,10 @@
           </svg>
         </div>
         <div class="ml-3">
-          <h3 class="text-sm font-medium text-red-800">
+          <h3 class="text-sm font-medium text-red-800 dark:text-red-200">
             Error loading pet data
           </h3>
-          <div class="mt-2 text-sm text-red-700">
+          <div class="mt-2 text-sm text-red-700 dark:text-red-300">
             <p>{{ petsError }}</p>
           </div>
         </div>
@@ -54,28 +56,34 @@
     <!-- Loading -->
     <div v-if="petsLoading" class="flex justify-center items-center py-12">
       <div
-        class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"
+        class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 dark:border-purple-400"
       ></div>
     </div>
 
     <!-- Loaded -->
     <div
       v-if="currentPet && !petsLoading && !itemsLoading"
-      class="bg-white shadow rounded-lg overflow-hidden"
+      class="dark:bg-gray-900 shadow rounded-lg overflow-hidden border border-gray-100 dark:border-gray-800"
     >
-      <div class="p-2 bg-gradient-to-r from-purple-50 to-pink-50">
+      <div
+        class="p-2 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900 dark:to-pink-900"
+      >
         <div class="flex items-center justify-between">
           <div class="flex items-center">
             <div class="ml-4">
-              <h3 class="text-lg font-semibold text-gray-900">
+              <h3
+                class="text-lg font-semibold text-gray-900 dark:text-gray-100"
+              >
                 {{ currentPet.name }}
               </h3>
-              <p class="text-sm text-gray-600">#{{ currentPet.id }}</p>
+              <p class="text-sm text-gray-600 dark:text-gray-400">
+                #{{ currentPet.id }}
+              </p>
             </div>
           </div>
           <div class="text-right">
             <span
-              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800"
+              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200"
             >
               Tier {{ currentPet.tier }}
             </span>
@@ -86,42 +94,62 @@
       <div class="px-6 py-4 space-y-4">
         <div class="grid grid-cols-2 gap-4 text-sm">
           <div>
-            <dt class="font-medium text-gray-900">Species</dt>
-            <dd class="text-gray-500 capitalize">{{ currentPet.species }}</dd>
+            <dt class="font-medium text-gray-900 dark:text-gray-100">
+              Species
+            </dt>
+            <dd class="text-gray-500 dark:text-gray-400 capitalize">
+              {{ currentPet.species }}
+            </dd>
           </div>
           <div>
-            <dt class="font-medium text-gray-900">Generation</dt>
-            <dd class="text-gray-500">{{ currentPet.generation }}</dd>
+            <dt class="font-medium text-gray-900 dark:text-gray-100">
+              Generation
+            </dt>
+            <dd class="text-gray-500 dark:text-gray-400">
+              {{ currentPet.generation }}
+            </dd>
           </div>
           <div>
-            <dt class="font-medium text-gray-900">XP</dt>
-            <dd class="text-gray-500">{{ currentPet.xp ?? 0 }}</dd>
+            <dt class="font-medium text-gray-900 dark:text-gray-100">XP</dt>
+            <dd class="text-gray-500 dark:text-gray-400">
+              {{ currentPet.xp ?? 0 }}
+            </dd>
           </div>
           <div>
-            <dt class="font-medium text-gray-900">Times Bred</dt>
-            <dd class="text-gray-500">{{ currentPet.timesBred }}</dd>
+            <dt class="font-medium text-gray-900 dark:text-gray-100">
+              Times Bred
+            </dt>
+            <dd class="text-gray-500 dark:text-gray-400">
+              {{ currentPet.timesBred }}
+            </dd>
           </div>
         </div>
 
-        <div class="border-t pt-4">
+        <div class="border-t border-gray-100 dark:border-gray-800 pt-4">
           <div class="grid grid-cols-2 gap-4 text-sm">
             <div>
-              <dt class="font-medium text-gray-900">Adventure type</dt>
-              <dd class="text-gray-500 capitalize">
+              <dt class="font-medium text-gray-900 dark:text-gray-100">
+                Adventure type
+              </dt>
+              <dd class="text-gray-500 dark:text-gray-400 capitalize">
                 {{ currentPet.adventureType ?? "Resting" }}
               </dd>
             </div>
             <div>
-              <dt class="font-medium text-gray-900">Items Found</dt>
-              <dd class="text-gray-500">
+              <dt class="font-medium text-gray-900 dark:text-gray-100">
+                Items Found
+              </dt>
+              <dd class="text-gray-500 dark:text-gray-400">
                 {{ currentPet.lifetimeItemsFound ?? "0" }}
               </dd>
             </div>
             <div v-if="currentPet.adventureBoost">
-              <dt class="font-medium text-gray-900">Adventure boost</dt>
-              <dd class="text-gray-500">
+              <dt class="font-medium text-gray-900 dark:text-gray-100">
+                Adventure boost
+              </dt>
+              <dd class="text-gray-500 dark:text-gray-400">
                 <span
-                  class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-orange-100 text-orange-800"
+                  class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200"
                 >
                   x{{ currentPet.adventureBoost.multiplier }} for
                   {{
@@ -135,12 +163,14 @@
           </div>
         </div>
 
-        <div class="border-t pt-4">
-          <h4 class="text-sm font-medium text-gray-900 mb-2">Heritage</h4>
+        <div class="border-t border-gray-100 dark:border-gray-800 pt-4">
+          <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
+            Heritage
+          </h4>
           <div class="flex flex-wrap gap-2">
             <span
               v-if="currentPet.skin"
-              class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-blue-100 text-blue-800"
+              class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200"
             >
               {{
                 currentPet.skin.charAt(0).toUpperCase() +
@@ -150,7 +180,7 @@
             </span>
             <span
               v-if="currentPet.aura"
-              class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-green-100 text-green-800"
+              class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200"
             >
               {{
                 currentPet.aura.charAt(0).toUpperCase() +
@@ -160,7 +190,7 @@
             </span>
             <span
               v-if="currentPet.craving"
-              class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-yellow-100 text-yellow-800"
+              class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200"
             >
               Craving x{{ currentPet.craving.quantity }}
               {{ currentPet.craving.item }}
@@ -168,7 +198,9 @@
           </div>
         </div>
 
-        <div class="border-t pt-4 text-xs text-gray-500">
+        <div
+          class="border-t border-gray-100 dark:border-gray-800 pt-4 text-xs text-gray-500 dark:text-gray-400"
+        >
           <div>
             Hatched: {{ formatDate(currentPet.hatchDate) }}
             <i>({{ timestampToDaysAgo(currentPet.hatchDate) }} days ago)</i>
@@ -192,9 +224,9 @@
       v-if="!currentPet && !petsLoading && !petsError"
       class="text-center py-12"
     >
-      <div class="text-gray-500">
+      <div class="text-gray-500 dark:text-gray-400">
         <svg
-          class="mx-auto h-12 w-12 text-gray-400"
+          class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -206,8 +238,10 @@
             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
           />
         </svg>
-        <h3 class="mt-2 text-sm font-medium text-gray-900">Search for a pet</h3>
-        <p class="mt-1 text-sm text-gray-500">
+        <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+          Search for a pet
+        </h3>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
           Enter a pet ID above and press Enter to view its details.
         </p>
       </div>

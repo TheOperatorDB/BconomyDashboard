@@ -1,13 +1,13 @@
 <template>
   <div>
-    <table class="min-w-full divide-y divide-gray-200">
-      <thead class="bg-gray-50">
-        <tr class="border-b border-gray-200">
+    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+      <thead class="bg-gray-50 dark:bg-gray-800">
+        <tr class="border-b border-gray-200 dark:border-gray-700">
           <th
             v-for="col in columns"
             :key="col.key"
             :class="[
-              'px-3 py-3 text-left text-xs font-medium text-gray-500 tracking-wider',
+              'px-3 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 tracking-wider',
               col.sortable ? 'cursor-pointer select-none' : '',
             ]"
             @click="col.sortable ? handleSort(col.key) : null"
@@ -30,14 +30,14 @@
           <th
             v-for="col in columns"
             :key="col.key"
-            class="px-3 py-1 bg-gray-50"
+            class="px-3 py-1 bg-gray-50 dark:bg-gray-800"
           >
             <div v-if="col.filterable">
               <template
                 v-if="col.filterOptions && Array.isArray(col.filterOptions)"
               >
                 <select
-                  class="border px-2 py-1 rounded font-normal text-xs w-full"
+                  class="border px-2 py-1 rounded font-normal text-xs w-full dark:bg-gray-900 dark:border-gray-700 dark:text-gray-200"
                   v-model="filters[col.key]"
                   @change="handleFilter"
                 >
@@ -54,7 +54,7 @@
               <template v-else>
                 <input
                   type="text"
-                  class="border px-2 py-1 rounded text-xs w-full"
+                  class="border px-2 py-1 rounded text-xs w-full dark:bg-gray-900 dark:border-gray-700 dark:text-gray-200"
                   v-model="filters[col.key]"
                   @input="handleFilter"
                   :placeholder="`Filter...`"
@@ -65,17 +65,17 @@
           </th>
         </tr>
       </thead>
-      <tbody class="bg-white divide-y divide-gray-200">
+      <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
         <tr
           v-for="row in filteredRows"
           :key="row[rowKey]"
-          class="hover:bg-gray-50 transition-colors duration-150"
+          class="transition-colors duration-150 hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700"
           @click="$emit('rowClick', row)"
         >
           <td
             v-for="col in columns"
             :key="col.key"
-            class="px-3 py-4 whitespace-nowrap text-xs"
+            class="px-3 py-4 whitespace-nowrap text-xs text-gray-700 dark:text-gray-200 dark:bg-gray-800"
           >
             <slot :name="col.key" :row="row">
               <template v-if="Array.isArray(row[col.key])">
@@ -91,7 +91,7 @@
         <tr v-if="filteredRows.length === 0">
           <td
             :colspan="columns.length"
-            class="text-center py-6 text-gray-400 text-sm"
+            class="text-center py-6 text-gray-400 dark:text-gray-500 dark:bg-gray-800 text-sm"
           >
             Nothing found
           </td>
