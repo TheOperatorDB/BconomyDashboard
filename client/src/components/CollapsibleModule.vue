@@ -6,9 +6,7 @@
       @click="toggle"
     >
       <h3 class="text-lg font-semibold text-gray-900">
-        <slot name="icon">
-          <!-- Default icon -->
-        </slot>
+        <slot name="icon"> </slot>
         {{ title }}
       </h3>
       <svg
@@ -36,7 +34,7 @@
 </template>
 
 <script setup>
-import { ref, watch, defineProps, defineEmits } from "vue";
+import { ref, watch } from "vue";
 
 const props = defineProps({
   title: { type: String, required: true },

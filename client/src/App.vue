@@ -50,6 +50,7 @@
 import "floating-vue/dist/style.css";
 
 const navigation = [
+  { name: "Market", href: "/market" },
   { name: "Users", href: "/" },
   { name: "Pets", href: "/pets" },
   { name: "Items", href: "/items" },

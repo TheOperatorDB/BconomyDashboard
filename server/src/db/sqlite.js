@@ -4,7 +4,7 @@ import path from "path";
 const dbPath = path.resolve(process.cwd(), "data", "bconomy.db");
 const db = new Database(dbPath);
 
-const createTableSQL = `
+const createItemTableSQL = `
 CREATE TABLE IF NOT EXISTS items (
   id INTEGER PRIMARY KEY,
   name TEXT NOT NULL,
@@ -17,6 +17,16 @@ CREATE TABLE IF NOT EXISTS items (
   imageBase64 TEXT
 );
 `;
-db.exec(createTableSQL);
+db.exec(createItemTableSQL);
+
+const createMarketTableSQL = `
+CREATE TABLE IF NOT EXISTS market (
+  id INTEGER PRIMARY KEY,
+  itemId TEXT,
+  price TEXT,
+  timestamp TEXT
+);
+`;
+db.exec(createMarketTableSQL);
 
 export default db;

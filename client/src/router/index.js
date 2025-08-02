@@ -2,11 +2,17 @@ import { createRouter, createWebHistory } from "vue-router";
 import Pets from "../views/Pets.vue";
 import Items from "../views/Items.vue";
 import Users from "../views/Users.vue";
+import Market from "../views/Market.vue";
 
 const routes = [
   {
     path: "/",
     redirect: "/users",
+  },
+  {
+    path: "/market",
+    name: "Market",
+    component: Market,
   },
   {
     path: "/users/:id?",
