@@ -53,7 +53,7 @@ const navigation = [
   { name: "Market", href: "/market" },
   { name: "Users", href: "/" },
   { name: "Pets", href: "/pets" },
-  { name: "Items", href: "/items" },
+  { name: "Database", href: "/database" },
 ];
 </script>
 

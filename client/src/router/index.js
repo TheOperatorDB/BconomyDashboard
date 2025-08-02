@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Pets from "../views/Pets.vue";
-import Items from "../views/Items.vue";
+import Database from "../views/Database.vue";
 import Users from "../views/Users.vue";
 import Market from "../views/Market.vue";
 
@@ -25,9 +25,9 @@ const routes = [
     component: Pets,
   },
   {
-    path: "/items",
-    name: "Items",
-    component: Items,
+    path: "/database",
+    name: "Database",
+    component: Database,
   },
 ];
 
