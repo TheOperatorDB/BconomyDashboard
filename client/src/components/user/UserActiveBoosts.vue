@@ -1,5 +1,9 @@
 <template>
-  <CollapsibleModule v-model:open="isBoostsOpen" title="🚀 Active Boosts">
+  <CollapsibleModule
+    v-model:open="isBoostsOpen"
+    title="🚀 Active Boosts"
+    headerBg="bg-gradient-to-r from-gray-50 to-orange-100 dark:from-gray-900 dark:to-gray-900"
+  >
     <div
       v-show="isBoostsOpen"
       class="transition-all bg-white duration-300 ease-in-out"
