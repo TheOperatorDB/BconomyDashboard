@@ -19,9 +19,21 @@
               <th
                 v-for="skin in allSkins"
                 :key="skin"
-                class="px-2 py-2 text-center w-24 text-gray-700 dark:text-gray-200"
+                :class="[
+                  'px-2 py-2 text-center w-24 text-gray-700 dark:text-gray-200',
+                  skinCompletionMap[skin]
+                    ? 'bg-green-100 dark:bg-green-900 border-b-4 border-b-green-400 dark:border-b-green-900'
+                    : '',
+                ]"
               >
                 {{ skin }}
+                <span
+                  v-if="skinCompletionMap[skin]"
+                  class="ml-1 inline-block text-green-600 dark:text-green-300"
+                  title="You own every species for this skin variant"
+                >
+                  ⭐
+                </span>
               </th>
             </tr>
           </thead>
@@ -31,21 +43,23 @@
               :key="species"
               :class="[
                 'transition-colors',
-                hasAllSkins(species)
-                  ? 'bg-green-50 dark:bg-green-900 hover:bg-green-100 dark:hover:bg-green-800 border-l-4 border-l-green-400 dark:border-l-green-700'
+                speciesCompletionMap[species]
+                  ? 'bg-green-50 dark:bg-gray-700 '
                   : 'hover:bg-yellow-50 hover:dark:bg-gray-700 dark:bg-gray-800',
               ]"
             >
               <td
                 :class="[
                   'px-2 py-2 font-semibold sticky left-0 z-10 border-r border-gray-100 dark:border-gray-700 w-32 text-gray-700 dark:bg-gray-800 dark:text-gray-200',
-                  hasAllSkins(species) ? 'bg-green-50 dark:bg-green-900' : '',
+                  speciesCompletionMap[species]
+                    ? 'bg-green-100 dark:bg-green-900 border-r-4 border-r-green-400 dark:border-r-green-900'
+                    : '',
                 ]"
               >
                 {{ species }}
                 <span
-                  v-if="hasAllSkins(species)"
-                  class="ml-2 inline-block text-green-600 dark:text-green-300"
+                  v-if="speciesCompletionMap[species]"
+                  class="ml-2 inline-block text-green-600 dark:text-green-200"
                   title="Complete collection for this species"
                 >
                   ⭐
@@ -78,7 +92,10 @@
 </template>
 
 <script setup>
+import { computed } from "vue";
 import CollapsibleModule from "../CollapsibleModule.vue";
+
+const props = defineProps({ pets: Array });
 
 const allSpecies = [
   "Bat",
@@ -126,22 +143,34 @@ const allSkins = [
   "Sunkissed",
 ];
 
-const props = defineProps({ pets: Array });
-const pets = props.pets;
+const speciesCompletionMap = computed(() => {
+  const map = {};
+  allSpecies.forEach((species) => {
+    map[species] = allSkins.every((skin) => userHasSkin(species, skin));
+  });
+  return map;
+});
 
 function userHasSkin(species, skin) {
+  const normalizedSkin = skin === null ? "Base skin" : skin;
+
   return (
-    pets &&
-    pets.some(
+    props.pets &&
+    props.pets.some(
       (p) =>
         p.species === species &&
-        (p.skin === skin ||
-          (skin === "Base skin" && (!p.skin || p.skin === "Base skin")))
+        (p.skin === normalizedSkin ||
+          (normalizedSkin === "Base skin" &&
+            (!p.skin || p.skin === "Base skin")))
     )
   );
 }
 
-function hasAllSkins(species) {
-  return allSkins.every((skin) => userHasSkin(species, skin));
-}
+const skinCompletionMap = computed(() => {
+  const map = {};
+  allSkins.forEach((skin) => {
+    map[skin] = allSpecies.every((species) => userHasSkin(species, skin));
+  });
+  return map;
+});
 </script>
