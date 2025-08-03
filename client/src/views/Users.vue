@@ -15,7 +15,7 @@
             id="user-id"
             v-model="userId"
             type="number"
-            placeholder="Enter user ID and press Enter"
+            placeholder="Enter user ID"
             class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
             @keyup.enter="searchUserById"
           />

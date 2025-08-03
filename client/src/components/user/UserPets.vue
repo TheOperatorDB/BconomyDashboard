@@ -2,8 +2,7 @@
   <CollapsibleModule
     v-model:open="isPetsOpen"
     title="🦄 Pets"
-    headerBg="bg-gradient-to-r from-orange-50 to-yellow-50 dark:from-orange-900 dark:to-yellow-900"
-    class="bg-white dark:bg-gray-900 shadow rounded-lg overflow-hidden mt-6"
+    headerBg="bg-gradient-to-r from-gray-50 to-yellow-100 dark:from-gray-900 dark:to-yellow-900"
   >
     <div v-show="isPetsOpen" class="transition-all duration-300 ease-in-out">
       <div v-if="pets && pets.length > 0">

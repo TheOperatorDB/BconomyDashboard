@@ -1,8 +1,7 @@
 <template>
   <CollapsibleModule
     title="🗃️ Pets Collection"
-    headerBg="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900 dark:to-blue-900"
-    class="bg-white dark:bg-gray-900 shadow rounded-lg overflow-hidden mt-6"
+    headerBg="bg-gradient-to-r from-gray-50 to-green-100 dark:from-gray-900 dark:to-green-900 "
   >
     <div class="transition-all duration-300 ease-in-out dark:bg-gray-800">
       <div class="overflow-x-auto">

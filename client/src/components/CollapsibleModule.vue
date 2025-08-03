@@ -1,10 +1,10 @@
 <template>
   <div
     class="bg-white dark:bg-gray-900 shadow rounded-lg overflow-hidden mt-6 border-2 border-gray-100 dark:border-gray-800"
+    :class="headerBg"
   >
     <div
       class="flex items-center justify-between p-6 cursor-pointer"
-      :class="headerBg"
       @click="toggle"
     >
       <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">

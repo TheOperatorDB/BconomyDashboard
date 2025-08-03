@@ -2,8 +2,7 @@
   <CollapsibleModule
     v-model:open="isPerksOpen"
     title="⭐ Perks"
-    headerBg="bg-gradient-to-r from-yellow-50 to-green-50 dark:from-yellow-900 dark:to-green-900"
-    class="bg-white dark:bg-gray-900 shadow rounded-lg overflow-hidden mt-6"
+    headerBg="bg-gradient-to-r from-gray-50 to-blue-100 dark:from-gray-900 dark:to-blue-900"
   >
     <div v-if="perks && perks.length > 0">
       <TableModule :columns="perksColumns" :rows="perks" rowKey="title">

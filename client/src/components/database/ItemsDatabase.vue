@@ -1,8 +1,7 @@
 <template>
   <CollapsibleModule
     title="📦 Items"
-    headerBg="bg-gradient-to-r from-orange-50 to-yellow-50 dark:from-orange-900 dark:to-yellow-900"
-    class="bg-white dark:bg-gray-900 shadow rounded-lg overflow-hidden mt-6"
+    headerBg="bg-gradient-to-r from-gray-50 to-yellow-100 dark:from-gray-900 dark:to-yellow-900"
   >
     <TableModule :columns="itemsColumns" :rows="items" rowKey="id">
       <template #id="{ row }"> #{{ row.id }} </template>
