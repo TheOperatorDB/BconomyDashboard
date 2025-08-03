@@ -30,7 +30,6 @@ async function fetchAndSaveMarketData() {
 router.get("/:itemId", async (req, res, next) => {
   try {
     const { itemId } = req.params;
-    // Select and format timestamp as yyyy-mm-dd, order asc, and avoid duplicate timestamp for same itemId
     const marketData = db
       .prepare(
         `SELECT itemId, price, timestamp
@@ -41,7 +40,6 @@ router.get("/:itemId", async (req, res, next) => {
       .all(itemId);
 
     function formatChartTime(ts) {
-      // Convert milliseconds to seconds
       return Math.floor(ts / 1000);
     }
     const formattedData = marketData.map((item) => ({

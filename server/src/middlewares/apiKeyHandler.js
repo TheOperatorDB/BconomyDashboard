@@ -4,14 +4,12 @@ const GUID_REGEX =
 export const validateApiKey = (req, res, next) => {
   const apiKey = req.header("X-API-Key");
 
-  // If no API key provided, use default config key
   if (!apiKey) {
     req.useDefaultKey = true;
     console.log("Using default API key");
     return next();
   }
 
-  // If API key is provided, validate GUID format
   if (apiKey && GUID_REGEX.test(apiKey)) {
     req.useDefaultKey = false;
     req.userApiKey = apiKey;
@@ -21,7 +19,6 @@ export const validateApiKey = (req, res, next) => {
     return next();
   }
 
-  // If key is provided but invalid format
   if (apiKey) {
     console.log("Invalid API key format provided");
     return res.status(401).json({

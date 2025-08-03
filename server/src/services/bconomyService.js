@@ -6,7 +6,7 @@ import { formatSource } from "./itemsService.js";
 const BCONOMY_API_URL = "https://bconomy.net/api/data";
 
 fetchAndSaveItems();
-setInterval(fetchAndSaveItems, 24 * 60 * 60 * 1000); // 24 hours
+setInterval(fetchAndSaveItems, 24 * 60 * 60 * 1000);
 
 export async function fetchItems() {
   var items = await fetchBconomyResource("itemData");

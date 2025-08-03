@@ -5,7 +5,7 @@ const router = express.Router();
 
 let cachedTrophies = null;
 let lastFetchTimestamp = null;
-const ITEM_DATA_CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours
+const ITEM_DATA_CACHE_DURATION = 24 * 60 * 60 * 1000;
 
 export async function fetchTrophies() {
   const now = Date.now();

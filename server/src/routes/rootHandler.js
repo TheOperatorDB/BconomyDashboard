@@ -7,7 +7,6 @@ import { validateApiKey } from "../middlewares/apiKeyHandler.js";
 
 const router = express.Router();
 
-// Apply API key validation middleware to all routes
 router.use(validateApiKey);
 
 router.use("/pets", petsRouter);
