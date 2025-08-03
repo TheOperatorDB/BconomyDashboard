@@ -7,7 +7,7 @@ import Market from "../views/Market.vue";
 const routes = [
   {
     path: "/",
-    redirect: "/users",
+    redirect: "/market",
   },
   {
     path: "/market",

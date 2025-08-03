@@ -1,17 +1,15 @@
 <template>
-  <div class="space-y-6 bg-gray-50 min-h-screen">
+  <div class="space-y-6 bg-gray-50 min-h-screen dark:bg-gray-700">
     <!-- Chart Section -->
     <div class="max-w-4xl mx-auto" v-if="chartData.length > 0">
-      <div
-        class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden"
-      >
+      <div class="rounded-lg shadow-sm border border-gray-200 overflow-hidden">
         <!-- Chart Header -->
-        <div
-          class="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50"
-        >
+        <div class="px-6 py-4 border-b border-gray-200 dark:bg-gray-800">
           <div class="flex items-center">
             <div class="w-1/3">
-              <label class="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                class="block text-sm font-medium text-gray-700 dark:text-gray-100 mb-2"
+              >
                 Select an item to view its market trends
               </label>
               <v-select
@@ -26,7 +24,7 @@
                 }"
                 @update:menu="handleMenuToggle"
                 variant="outlined"
-                class="custom-select w-full"
+                class="custom-select w-full dark:bg-gray-900 dark:border-gray-700 dark:text-gray-200"
                 hide-details
               >
                 <template v-slot:append-inner>
@@ -45,7 +43,10 @@
                   </svg>
                 </template>
                 <template v-slot:prepend-item>
-                  <v-list-item @mousedown.stop class="px-4 py-2">
+                  <v-list-item
+                    @mousedown.stop
+                    class="px-4 py-2 dark:bg-gray-800 dark:text-gray-200"
+                  >
                     <div class="w-full">
                       <v-text-field
                         ref="searchField"
@@ -57,7 +58,7 @@
                         variant="outlined"
                         density="compact"
                         hide-details
-                        class="search-field"
+                        class="search-field dark:bg-gray-900 dark:text-gray-200"
                       />
                     </div>
                   </v-list-item>
@@ -70,11 +71,8 @@
 
         <!-- Chart -->
         <div class="chart-wrapper bg-white shadow-inner overflow-hidden">
-          <LWChart :data="chartData" :chartOptions="chartOptions" />
+          <LWChart :data="chartData" />
         </div>
-
-        <!-- Chart Footer -->
-        <div class="px-6 py-4 bg-gray-50 border-t border-gray-200"></div>
       </div>
 
       <!-- Price Change Cards -->
@@ -84,11 +82,13 @@
           <div v-if="latestValue" class="flex justify-center">
             <div class="w-full max-w-md">
               <div
-                class="rounded-lg shadow-sm border border-gray-200 bg-white p-3 flex flex-col min-h-32"
+                class="rounded-lg shadow-sm border border-gray-200 p-3 flex flex-col min-h-32 dark:bg-gray-800 dark:border-gray-800"
               >
-                <div class="text-base text-gray-700 mb-2">Current Price</div>
+                <div class="text-base text-gray-700 dark:text-gray-100 mb-2">
+                  Current Price
+                </div>
                 <div
-                  class="flex items-center text-xl font-bold py-2 text-gray-700"
+                  class="flex items-center text-xl font-bold py-2 text-gray-700 dark:text-gray-100"
                 >
                   <span>{{ latestValue }} BC</span>
                 </div>
@@ -99,9 +99,9 @@
           <div v-if="priceChange1h" class="flex justify-center">
             <div class="w-full max-w-md">
               <div
-                class="rounded-lg shadow-sm border border-gray-200 bg-white p-3 flex flex-col min-h-32"
+                class="rounded-lg shadow-sm border border-gray-200 p-3 flex flex-col min-h-32 dark:bg-gray-800 dark:border-gray-800"
               >
-                <div class="text-base text-gray-700 mb-2">
+                <div class="text-base text-gray-700 dark:text-gray-100 mb-2">
                   Price Change <i>(Last hour)</i>
                 </div>
                 <div
@@ -157,9 +157,9 @@
           <div v-if="priceChange24h" class="flex justify-center">
             <div class="w-full max-w-md">
               <div
-                class="rounded-lg shadow-sm border border-gray-200 bg-white p-3 flex flex-col min-h-32"
+                class="rounded-lg shadow-sm border border-gray-200 p-3 flex flex-col min-h-32 dark:bg-gray-800 dark:border-gray-800"
               >
-                <div class="text-base text-gray-700 mb-2">
+                <div class="text-base text-gray-700 dark:text-gray-100 mb-2">
                   Price Change <i>(Last day)</i>
                 </div>
                 <div
@@ -230,24 +230,6 @@ const searchField = ref(null);
 
 const { fetchItemsSimple } = items();
 const { fetchItemMarketDataById } = market();
-
-const chartOptions = {
-  width: 900,
-  height: 500,
-  layout: {
-    background: { color: "#ffffff" },
-    textColor: "#374151",
-  },
-  grid: {
-    vertLines: { color: "#f3f4f6" },
-    horzLines: { color: "#f3f4f6" },
-  },
-  crosshair: {
-    mode: 1,
-    vertLine: { color: "#3b82f6", width: 1, style: 2 },
-    horzLine: { color: "#3b82f6", width: 1, style: 2 },
-  },
-};
 
 const filteredItems = computed(() => {
   let filtered = itemsList.value;

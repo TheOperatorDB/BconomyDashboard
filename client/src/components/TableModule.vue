@@ -1,6 +1,8 @@
 <template>
   <div>
-    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+    <table
+      class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-white"
+    >
       <thead class="bg-gray-50 dark:bg-gray-800">
         <tr class="border-b border-gray-200 dark:border-gray-700">
           <th

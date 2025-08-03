@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted, watch } from "vue";
+import { ref, onMounted, onUnmounted, watch, computed, inject } from "vue";
 import { createChart, LineSeries } from "lightweight-charts";
 
 const props = defineProps({
@@ -14,9 +14,6 @@ const props = defineProps({
   autosize: {
     default: true,
     type: Boolean,
-  },
-  chartOptions: {
-    type: Object,
   },
   seriesOptions: {
     type: Object,
@@ -33,6 +30,88 @@ let series;
 let chart;
 
 const chartContainer = ref();
+
+const isDark = inject("isDark", ref(false));
+
+const getChartOptions = computed(() => {
+  const lightTheme = {
+    background: { type: "solid", color: "#f8fafc" },
+    textColor: "#222",
+    gridColor: "#e5e7eb",
+    borderColor: "#e5e7eb",
+  };
+
+  const darkTheme = {
+    background: { type: "solid", color: "#0f172a" },
+    textColor: "#e2e8f0",
+    gridColor: "#334155",
+    borderColor: "#475569",
+  };
+
+  const theme = isDark.value ? darkTheme : lightTheme;
+
+  return {
+    width: 900,
+    height: 500,
+    layout: {
+      background: theme.background,
+      textColor: theme.textColor,
+    },
+    grid: {
+      vertLines: { color: theme.gridColor, style: 1, visible: true },
+      horzLines: { color: theme.gridColor, style: 1, visible: true },
+    },
+    timeScale: {
+      borderColor: theme.borderColor,
+      timeVisible: true,
+      lockVisibleTimeRangeOnResize: true,
+      rightBarStaysOnScroll: true,
+    },
+    rightPriceScale: {
+      borderColor: theme.borderColor,
+    },
+    localization: {
+      priceFormatter: (price) => `${price.toLocaleString("en-US")} BC`,
+      dateFormat: "yyyy-MM-dd",
+      timeFormat: "HH:mm",
+    },
+  };
+});
+
+// Computed series options based on dark mode
+const getSeriesOptions = computed(() => {
+  const theme = isDark.value
+    ? {
+        color: "#60a5fa",
+        crosshairMarkerBorderColor: "#60a5fa",
+        crosshairMarkerBackgroundColor: "#1e293b",
+      }
+    : {
+        color: "#2563eb",
+        crosshairMarkerBorderColor: "#2563eb",
+        crosshairMarkerBackgroundColor: "#fff",
+      };
+
+  const defaultSeriesOptions = {
+    ...theme,
+    lineWidth: 2,
+    priceLineVisible: false,
+    lastValueVisible: true,
+    crosshairMarkerVisible: true,
+    crosshairMarkerRadius: 4,
+    lineType: 2,
+    pointMarkersVisible: false,
+  };
+
+  return {
+    ...defaultSeriesOptions,
+    ...(props.seriesOptions || {}),
+    // Force theme colors to take precedence over props
+    color: theme.color,
+    crosshairMarkerBorderColor: theme.crosshairMarkerBorderColor,
+    crosshairMarkerBackgroundColor: theme.crosshairMarkerBackgroundColor,
+  };
+});
 
 const fitContent = () => {
   if (!chart) return;
@@ -51,71 +130,31 @@ const resizeHandler = () => {
   chart.resize(dimensions.width, dimensions.height);
 };
 
-const addSeriesAndData = (props) => {
-  series = chart.addSeries(LineSeries, props.seriesOptions);
+const addSeriesAndData = () => {
+  if (series && chart) {
+    chart.removeSeries(series);
+  }
+  series = chart.addSeries(LineSeries, getSeriesOptions.value);
   if (!series || !props.data) return;
   series.setData(props.data);
 };
 
+const updateChartTheme = () => {
+  if (!chart) return;
+
+  // Update chart options
+  chart.applyOptions(getChartOptions.value);
+
+  // Update series options
+  if (series) {
+    series.applyOptions(getSeriesOptions.value);
+  }
+};
+
 onMounted(() => {
-  const defaultChartOptions = {
-    width: 600,
-    height: 350,
-    layout: {
-      background: { type: "solid", color: "#f8fafc" },
-      textColor: "#222",
-    },
-    grid: {
-      vertLines: { color: "#e5e7eb", style: 1, visible: true },
-      horzLines: { color: "#e5e7eb", style: 1, visible: true },
-    },
-    timeScale: {
-      borderColor: "#e5e7eb",
-      timeVisible: true,
-      lockVisibleTimeRangeOnResize: true,
-      rightBarStaysOnScroll: true,
-    },
-    rightPriceScale: {
-      borderColor: "#e5e7eb",
-    },
-    localization: {
-      priceFormatter: (price) => `${price.toLocaleString("en-US")} BC`,
-      dateFormat: "yyyy-MM-dd",
-      timeFormat: "HH:mm",
-    },
-  };
-
-  const chartOptionsWithLocalization = {
-    ...defaultChartOptions,
-    ...(props.chartOptions || {}),
-    localization: {
-      ...defaultChartOptions.localization,
-      ...(props.chartOptions?.localization || {}),
-    },
-  };
-
-  chart = createChart(chartContainer.value, chartOptionsWithLocalization);
-  const defaultSeriesOptions = {
-    color: "#2563eb",
-    lineWidth: 2,
-    priceLineVisible: false,
-    lastValueVisible: true,
-    crosshairMarkerVisible: true,
-    crosshairMarkerRadius: 4,
-    crosshairMarkerBorderColor: "#2563eb",
-    crosshairMarkerBackgroundColor: "#fff",
-    lineType: 2,
-    pointMarkersVisible: false,
-  };
-
-  const mergedProps = {
-    ...props,
-    seriesOptions: {
-      ...defaultSeriesOptions,
-      ...(props.seriesOptions || {}),
-    },
-  };
-  addSeriesAndData(mergedProps);
+  // Create chart with initial theme
+  chart = createChart(chartContainer.value, getChartOptions.value);
+  addSeriesAndData();
 
   if (props.priceScaleOptions) {
     chart.priceScale().applyOptions(props.priceScaleOptions);
@@ -143,6 +182,11 @@ onUnmounted(() => {
   window.removeEventListener("resize", resizeHandler);
 });
 
+// Watch for dark mode changes and update chart theme
+watch(isDark, () => {
+  updateChartTheme();
+});
+
 watch(
   () => props.autosize,
   (enabled) => {
@@ -157,10 +201,7 @@ watch(
 watch(
   () => props.type,
   () => {
-    if (series && chart) {
-      chart.removeSeries(series);
-    }
-    addSeriesAndData(props);
+    addSeriesAndData();
   }
 );
 
@@ -173,18 +214,10 @@ watch(
 );
 
 watch(
-  () => props.chartOptions,
-  (newOptions) => {
-    if (!chart) return;
-    chart.applyOptions(newOptions);
-  }
-);
-
-watch(
   () => props.seriesOptions,
   (newOptions) => {
     if (!series) return;
-    series.applyOptions(newOptions);
+    series.applyOptions(getSeriesOptions.value);
   }
 );
 

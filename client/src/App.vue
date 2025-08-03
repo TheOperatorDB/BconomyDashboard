@@ -9,7 +9,7 @@
         isDark
           ? 'bg-gray-900 shadow-sm border-b border-gray-800'
           : 'bg-white shadow-sm border-b border-gray-200',
-        'transition-colors duration-300',
+        'transition-colors duration-300 sticky top-0 z-30',
       ]"
     >
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -65,12 +65,12 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, provide } from "vue";
 import "floating-vue/dist/style.css";
 
 const navigation = [
   { name: "Market", href: "/market" },
-  { name: "Users", href: "/" },
+  { name: "Users", href: "/users" },
   { name: "Pets", href: "/pets" },
   { name: "Database", href: "/database" },
 ];
@@ -81,6 +81,17 @@ function toggleDark() {
   isDark.value = !isDark.value;
   document.documentElement.classList.toggle("dark", isDark.value);
   localStorage.setItem("theme", isDark.value ? "dark" : "light");
+}
+
+provide("isDark", isDark);
+
+const savedTheme = localStorage.getItem("theme");
+if (savedTheme) {
+  isDark.value = savedTheme === "dark";
+  document.documentElement.classList.toggle("dark", isDark.value);
+} else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+  isDark.value = true;
+  document.documentElement.classList.add("dark");
 }
 
 onMounted(() => {

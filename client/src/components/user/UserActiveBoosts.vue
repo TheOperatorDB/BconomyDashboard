@@ -4,7 +4,10 @@
     title="🚀 Active Boosts"
     headerBg="bg-gradient-to-r from-gray-50 to-orange-100 dark:from-gray-900 dark:to-orange-900"
   >
-    <div v-show="isBoostsOpen" class="transition-all duration-300 ease-in-out">
+    <div
+      v-show="isBoostsOpen"
+      class="transition-all bg-white duration-300 ease-in-out"
+    >
       <div v-if="activeBoosts && activeBoosts.length > 0">
         <TableModule
           :columns="boostColumns"
