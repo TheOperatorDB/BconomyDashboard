@@ -1,8 +1,5 @@
 <template>
-  <CollapsibleModule
-    title="🗃️ Pets Collection"
-    headerBg="bg-gradient-to-r from-gray-50 to-green-100 dark:from-gray-900 dark:to-green-900 "
-  >
+  <CollapsibleModule title="🗃️ Pets Collection">
     <div class="transition-all duration-300 ease-in-out dark:bg-gray-800">
       <div class="overflow-x-auto">
         <table class="min-w-full text-sm">

@@ -1,14 +1,18 @@
 <template>
-  <div class="space-y-6 bg-gray-50 min-h-screen dark:bg-gray-700">
+  <div class="space-y-6 min-h-screen dark:bg-gray-700">
     <!-- Chart Section -->
     <div class="max-w-4xl mx-auto" v-if="chartData.length > 0">
-      <div class="rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      <div
+        class="rounded-lg shadow-sm border dark:border-table-border-dark overflow-hidden dark:bg-gray-900"
+      >
         <!-- Chart Header -->
-        <div class="px-6 py-4 border-b border-gray-200 dark:bg-gray-800">
+        <div
+          class="px-6 py-4 border-b border-table-border-light dark:border-table-border-dark dark:bg-gray-800"
+        >
           <div class="flex items-center">
             <div class="w-1/3">
               <label
-                class="block text-sm font-medium text-gray-700 dark:text-gray-100 mb-2"
+                class="block text-sm font-medium dark:text-table-primary-dark mb-2"
               >
                 Select an item to view its market trends
               </label>
@@ -24,12 +28,12 @@
                 }"
                 @update:menu="handleMenuToggle"
                 variant="outlined"
-                class="custom-select w-full dark:bg-gray-900 dark:border-gray-700 dark:text-gray-200"
+                class="custom-select w-full dark:bg-gray-900 dark:border-table-border-dark dark:text-content-primary-dark"
                 hide-details
               >
                 <template v-slot:append-inner>
                   <svg
-                    class="w-5 h-5 text-gray-500"
+                    class="w-5 h-5 dark:text-table-secondary-dark"
                     fill="none"
                     stroke="currentColor"
                     stroke-width="2"
@@ -45,24 +49,21 @@
                 <template v-slot:prepend-item>
                   <v-list-item
                     @mousedown.stop
-                    class="px-4 py-2 dark:bg-gray-800 dark:text-gray-200"
+                    class="dark:bg-gray-800 dark:text-table-primary-dark"
                   >
-                    <div class="w-full">
-                      <v-text-field
-                        ref="searchField"
-                        v-model="searchTerm"
-                        placeholder="Search items..."
-                        clearable
-                        @mousedown.stop
-                        @keydown="handleKeydown"
-                        variant="outlined"
-                        density="compact"
-                        hide-details
-                        class="search-field dark:bg-gray-900 dark:text-gray-200"
-                      />
-                    </div>
+                    <v-text-field
+                      ref="searchField"
+                      v-model="searchTerm"
+                      placeholder="Search items..."
+                      clearable
+                      @mousedown.stop
+                      @keydown="handleKeydown"
+                      variant="outlined"
+                      density="compact"
+                      hide-details
+                      class="search-field dark:bg-gray-900 dark:text-table-primary-dark"
+                    />
                   </v-list-item>
-                  <v-divider class="my-2" />
                 </template>
               </v-select>
             </div>
@@ -70,7 +71,9 @@
         </div>
 
         <!-- Chart -->
-        <div class="chart-wrapper bg-white shadow-inner overflow-hidden">
+        <div
+          class="chart-wrapper dark:bg-gray-900 shadow-inner overflow-hidden"
+        >
           <LWChart :data="chartData" />
         </div>
       </div>
@@ -82,13 +85,15 @@
           <div v-if="latestValue" class="flex justify-center">
             <div class="w-full max-w-md">
               <div
-                class="rounded-lg shadow-sm border border-gray-200 p-3 flex flex-col min-h-32 dark:bg-gray-800 dark:border-gray-800"
+                class="rounded-lg shadow-sm border dark:border-table-border-dark p-3 flex flex-col min-h-32 dark:bg-gray-800"
               >
-                <div class="text-base text-gray-700 dark:text-gray-100 mb-2">
+                <div
+                  class="text-base text-table-primary-light dark:text-table-primary-dark mb-2"
+                >
                   Current Price
                 </div>
                 <div
-                  class="flex items-center text-xl font-bold py-2 text-gray-700 dark:text-gray-100"
+                  class="flex items-center text-xl font-bold py-2 dark:text-table-primary-dark"
                 >
                   <span>{{ latestValue }} BC</span>
                 </div>
@@ -99,9 +104,9 @@
           <div v-if="priceChange1h" class="flex justify-center">
             <div class="w-full max-w-md">
               <div
-                class="rounded-lg shadow-sm border border-gray-200 p-3 flex flex-col min-h-32 dark:bg-gray-800 dark:border-gray-800"
+                class="rounded-lg shadow-sm border dark:border-table-border-dark p-3 flex flex-col min-h-32 dark:bg-gray-800"
               >
-                <div class="text-base text-gray-700 dark:text-gray-100 mb-2">
+                <div class="text-base dark:text-table-primary-dark mb-2">
                   Price Change <i>(Last hour)</i>
                 </div>
                 <div
@@ -157,9 +162,9 @@
           <div v-if="priceChange24h" class="flex justify-center">
             <div class="w-full max-w-md">
               <div
-                class="rounded-lg shadow-sm border border-gray-200 p-3 flex flex-col min-h-32 dark:bg-gray-800 dark:border-gray-800"
+                class="rounded-lg shadow-sm border dark:border-table-border-dark p-3 flex flex-col min-h-32 dark:bg-gray-800"
               >
-                <div class="text-base text-gray-700 dark:text-gray-100 mb-2">
+                <div class="text-base dark:text-table-primary-dark mb-2">
                   Price Change <i>(Last day)</i>
                 </div>
                 <div
@@ -220,13 +225,14 @@
 import LWChart from "../components/LWChart.vue";
 import { market } from "../composables/market.js";
 import { items } from "../composables/items.js";
-import { ref, onMounted, watch, computed } from "vue";
+import { ref, onMounted, onUnmounted, watch, computed } from "vue";
 
 const chartData = ref([]);
 const itemsList = ref([]);
 const selectedItemId = ref(null);
 const searchTerm = ref("");
 const searchField = ref(null);
+let refreshInterval;
 
 const { fetchItemsSimple } = items();
 const { fetchItemMarketDataById } = market();
@@ -286,10 +292,10 @@ function createPriceChange(hours) {
     if (!priceChange.value) return "text-gray-600";
     const value = priceChange.value.value;
     return value.startsWith("+")
-      ? "text-green-600"
+      ? "text-green-600 dark:text-green-500"
       : value.startsWith("-")
-        ? "text-red-600"
-        : "text-gray-600";
+        ? "text-red-600 dark:text-red-500"
+        : "text-table-secondary-light dark:text-table-secondary-dark";
   });
 
   const icon = computed(() => {
@@ -380,7 +386,58 @@ onMounted(async () => {
   }
 });
 
+// Set up interval to refresh data every 5 minutes
+refreshInterval = setInterval(
+  () => {
+    if (selectedItemId.value) {
+      updateChartData(selectedItemId.value);
+    }
+  },
+  5 * 60 * 1000
+);
+
+onUnmounted(() => {
+  if (refreshInterval) {
+    clearInterval(refreshInterval);
+  }
+});
+
 watch(selectedItemId, async (newItemId) => {
   await updateChartData(newItemId);
 });
 </script>
+
+<style>
+.dark {
+  --v-theme-surface: #1f2937;
+}
+
+.dark .v-list {
+  background-color: transparent !important;
+}
+
+.dark .v-list,
+.dark .v-menu > .v-overlay__content > .v-card,
+.dark .v-select .v-field__input,
+.dark .v-text-field .v-field__input {
+  background-color: #111827;
+}
+
+.dark .v-list {
+  background-color: #1f2937;
+}
+
+.dark .v-list-item {
+  color: #f9fafb;
+  background-color: #1f2937;
+}
+
+.dark .v-list-item:hover {
+  color: #f9fafb;
+  background-color: #1f2937;
+}
+
+.dark .v-field__field {
+  background-color: #111827;
+}
+</style>

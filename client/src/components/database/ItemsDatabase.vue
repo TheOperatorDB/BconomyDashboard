@@ -1,8 +1,5 @@
 <template>
-  <CollapsibleModule
-    title="📦 Items"
-    headerBg="bg-gradient-to-r from-gray-50 to-yellow-100 dark:from-gray-900 dark:to-yellow-900"
-  >
+  <CollapsibleModule title="📦 Items">
     <TableModule :columns="itemsColumns" :rows="items" rowKey="id">
       <template #id="{ row }"> #{{ row.id }} </template>
       <template #name="{ row }">

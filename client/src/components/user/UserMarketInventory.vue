@@ -2,7 +2,6 @@
   <CollapsibleModule
     v-model:open="isMarketInventoryOpen"
     title="⚖️ Market Inventory"
-    headerBg="bg-gradient-to-r from-gray-50 to-red-100 dark:from-gray-900 dark:to-red-900"
   >
     <div
       v-show="isMarketInventoryOpen"

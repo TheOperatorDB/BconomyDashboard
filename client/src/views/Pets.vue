@@ -1,13 +1,13 @@
 <template>
-  <div class="space-y-6 bg-gray-50 dark:bg-gray-700">
+  <div class="space-y-6 dark:bg-surface-dark transition-colors duration-200">
     <div
-      class="dark:bg-gray-800 shadow rounded-lg p-6 border border-gray-100 dark:border-gray-800"
+      class="bg-card-light dark:bg-card-dark shadow rounded-lg p-6 border border-table-border-light dark:border-table-border-dark transition-colors duration-200"
     >
       <div class="flex items-center space-x-4">
         <div class="flex-1">
           <label
             for="pet-id"
-            class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2"
+            class="block text-sm font-medium text-content-primary-light dark:text-content-primary-dark mb-2 transition-colors duration-200"
           >
             Search a pet
           </label>
@@ -16,7 +16,7 @@
             v-model="petId"
             type="number"
             placeholder="Enter pet ID"
-            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+            class="w-full px-3 py-2 border border-table-border-light dark:border-table-border-dark rounded-md dark:bg-surface-dark text-content-primary-light dark:text-content-primary-dark focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors duration-200"
             @keyup.enter="searchPetById"
           />
         </div>
@@ -63,7 +63,7 @@
     <!-- Loaded -->
     <div
       v-if="currentPet && !petsLoading && !itemsLoading"
-      class="dark:bg-gray-900 shadow rounded-lg overflow-hidden border border-gray-100 dark:border-gray-800"
+      class="bg-card-light dark:bg-card-dark shadow rounded-lg overflow-hidden border border-table-border-light dark:border-table-border-dark transition-colors duration-200"
     >
       <div
         class="p-2 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900 dark:to-pink-900"
@@ -72,18 +72,20 @@
           <div class="flex items-center">
             <div class="ml-4">
               <h3
-                class="text-lg font-semibold text-gray-900 dark:text-gray-100"
+                class="text-lg font-semibold text-content-primary-light dark:text-content-primary-dark transition-colors duration-200"
               >
                 {{ currentPet.name }}
               </h3>
-              <p class="text-sm text-gray-600 dark:text-gray-400">
+              <p
+                class="text-sm text-content-secondary-light dark:text-content-secondary-dark transition-colors duration-200"
+              >
                 #{{ currentPet.id }}
               </p>
             </div>
           </div>
           <div class="text-right">
             <span
-              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200"
+              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 dark:bg-purple-900 text-badge-purple-light dark:text-badge-purple-dark transition-colors duration-200"
             >
               Tier {{ currentPet.tier }}
             </span>
@@ -149,7 +151,7 @@
               </dt>
               <dd class="text-gray-500 dark:text-gray-400">
                 <span
-                  class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200"
+                  class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-orange-100 dark:bg-orange-900 text-badge-orange-light dark:text-badge-orange-dark transition-colors duration-200"
                 >
                   x{{ currentPet.adventureBoost.multiplier }} for
                   {{
@@ -170,7 +172,7 @@
           <div class="flex flex-wrap gap-2">
             <span
               v-if="currentPet.skin"
-              class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200"
+              class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-blue-100 dark:bg-blue-900 text-badge-blue-light dark:text-badge-blue-dark transition-colors duration-200"
             >
               {{
                 currentPet.skin.charAt(0).toUpperCase() +
@@ -180,7 +182,7 @@
             </span>
             <span
               v-if="currentPet.aura"
-              class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200"
+              class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-green-100 dark:bg-green-900 text-badge-green-light dark:text-badge-green-dark transition-colors duration-200"
             >
               {{
                 currentPet.aura.charAt(0).toUpperCase() +
@@ -190,7 +192,7 @@
             </span>
             <span
               v-if="currentPet.craving"
-              class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200"
+              class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-yellow-100 dark:bg-yellow-900 text-badge-yellow-light dark:text-badge-yellow-dark transition-colors duration-200"
             >
               Craving x{{ currentPet.craving.quantity }}
               {{ currentPet.craving.item }}

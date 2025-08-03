@@ -2,9 +2,7 @@
   <div
     class="dark:bg-gray-800 shadow rounded-lg overflow-hidden mt-5 border border-gray-900"
   >
-    <div
-      class="p-2 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900 dark:to-pink-900"
-    >
+    <div class="p-2 dark:bg-gray-900">
       <div class="flex justify-between">
         <div class="ml-4 flex">
           <div>

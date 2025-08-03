@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-white dark:bg-gray-900 shadow rounded-lg overflow-hidden mt-6 border-2 border-gray-100 dark:border-gray-800"
+    class="dark:bg-gray-900 shadow rounded-lg overflow-hidden mt-6 border-2 border-gray-100 dark:border-gray-800"
     :class="headerBg"
   >
     <div

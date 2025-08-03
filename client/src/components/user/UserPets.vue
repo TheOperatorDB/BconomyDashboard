@@ -1,9 +1,5 @@
 <template>
-  <CollapsibleModule
-    v-model:open="isPetsOpen"
-    title="🦄 Pets"
-    headerBg="bg-gradient-to-r from-gray-50 to-yellow-100 dark:from-gray-900 dark:to-yellow-900"
-  >
+  <CollapsibleModule v-model:open="isPetsOpen" title="🦄 Pets">
     <div
       v-show="isPetsOpen"
       class="transition-all duration-300 ease-in-ou bg-white"

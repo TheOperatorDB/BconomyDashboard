@@ -1,13 +1,13 @@
 <template>
-  <div class="space-y-6">
+  <div class="space-y-6 dark:bg-surface-dark transition-colors duration-200">
     <div
-      class="dark:bg-gray-800 shadow rounded-lg p-6 border border-gray-100 dark:border-gray-800"
+      class="bg-card-light dark:bg-card-dark shadow rounded-lg p-6 border border-table-border-light dark:border-table-border-dark transition-colors duration-200"
     >
       <div class="flex items-center space-x-4">
         <div class="flex-1">
           <label
             for="user-id"
-            class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2"
+            class="block text-sm font-medium text-content-primary-light dark:text-content-primary-dark mb-2 transition-colors duration-200"
           >
             Search a user
           </label>
@@ -16,7 +16,7 @@
             v-model="userId"
             type="number"
             placeholder="Enter user ID"
-            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+            class="w-full px-3 py-2 border border-table-border-light dark:border-table-border-dark rounded-md dark:bg-surface-dark text-content-primary-light dark:text-content-primary-dark focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors duration-200"
             @keyup.enter="searchUserById"
           />
         </div>
@@ -26,7 +26,7 @@
     <!-- Error -->
     <div
       v-if="usersError"
-      class="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-800 rounded-md p-4"
+      class="bg-error-light dark:bg-error-dark border border-red-200 dark:border-red-800 rounded-md p-4 transition-colors duration-200"
     >
       <div class="flex">
         <div class="flex-shrink-0">
@@ -79,10 +79,14 @@
             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
           />
         </svg>
-        <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+        <h3
+          class="mt-2 text-sm font-medium text-content-primary-light dark:text-content-primary-dark transition-colors duration-200"
+        >
           Search for a user
         </h3>
-        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+        <p
+          class="mt-1 text-sm text-content-secondary-light dark:text-content-secondary-dark transition-colors duration-200"
+        >
           Enter a user ID above and press Enter to view its details.
         </p>
       </div>

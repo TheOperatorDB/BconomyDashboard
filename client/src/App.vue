@@ -79,30 +79,39 @@ const isDark = ref(false);
 
 function toggleDark() {
   isDark.value = !isDark.value;
+  updateTheme();
+}
+
+function updateTheme() {
   document.documentElement.classList.toggle("dark", isDark.value);
   localStorage.setItem("theme", isDark.value ? "dark" : "light");
 }
 
+// Provide dark mode state to child components
 provide("isDark", isDark);
 
-const savedTheme = localStorage.getItem("theme");
-if (savedTheme) {
-  isDark.value = savedTheme === "dark";
-  document.documentElement.classList.toggle("dark", isDark.value);
-} else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-  isDark.value = true;
-  document.documentElement.classList.add("dark");
-}
-
+// Initialize theme
 onMounted(() => {
-  const saved = localStorage.getItem("theme");
-  if (saved === "dark") {
-    isDark.value = true;
-    document.documentElement.classList.add("dark");
+  // Check saved preference first
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme) {
+    isDark.value = savedTheme === "dark";
   } else {
-    isDark.value = false;
-    document.documentElement.classList.remove("dark");
+    // Fall back to system preference
+    isDark.value = window.matchMedia("(prefers-color-scheme: dark)").matches;
   }
+  updateTheme();
+
+  // Listen for system theme changes
+  window
+    .matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", (e) => {
+      if (!localStorage.getItem("theme")) {
+        // Only if user hasn't set a preference
+        isDark.value = e.matches;
+        updateTheme();
+      }
+    });
 });
 </script>
 

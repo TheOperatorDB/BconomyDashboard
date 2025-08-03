@@ -1,9 +1,5 @@
 <template>
-  <CollapsibleModule
-    v-model:open="isPerksOpen"
-    title="⭐ Perks"
-    headerBg="bg-gradient-to-r from-gray-50 to-blue-100 dark:from-gray-900  dark:to-blue-900"
-  >
+  <CollapsibleModule v-model:open="isPerksOpen" title="⭐ Perks">
     <div class="bg-white">
       <div v-if="perks && perks.length > 0">
         <TableModule :columns="perksColumns" :rows="perks" rowKey="title">
