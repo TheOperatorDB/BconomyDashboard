@@ -1,6 +1,6 @@
 # Bconomy Dashboard
 
-A real-time game data dashboard for Bconomy built with Vue.js frontend and Node.js backend.
+An *almost* real-time game data dashboard for Bconomy.net built with a Vue.js frontend and a Node.js backend.
 
 ## 🛠️ Installation
 
@@ -12,9 +12,9 @@ A real-time game data dashboard for Bconomy built with Vue.js frontend and Node.
 
 ### Setup Instructions
 
-1. **Clone the repository**
+1. **Clone the repository (ssh)**
    ```bash
-   git clone <your-repo-url>
+   git clone git@github.com:TheOperatorDB/BconomyDashboard.git
    cd BconomyDashboard
    ```
 
@@ -55,19 +55,13 @@ A real-time game data dashboard for Bconomy built with Vue.js frontend and Node.
 - **Frontend**: http://localhost:5173
 - **Backend API**: http://localhost:3001
 
-## 📊 Available Endpoints
-
-### Bconomy Game Data APIs
-
-- `GET /api/pets/:id` - Get specific pet data
-- `GET /api/items` - Get all items data
-
 ## 🎨 Frontend Features
 
 ### Pages
-- **Dashboard** (`/`) - Overview of all game data
-- **Pets** (`/pets`) - View and manage pets
-- **Items** (`/items`) - View and manage items
+- **Market** (`/market`) - A chart view of price evolution for an item
+- **Pets** (`/pets`) - Find pet by ID and display some info about them
+- **Users** (`/Users`) - Find user by ID and display some info about them
+- **Items** (`/database`) - Displays the list of all items currently in the game (returned by Bconomy.net endpoint)
 
 ## 🔌 API Integration
 
@@ -75,19 +69,26 @@ The project integrates with the Bconomy API:
 
 - **API Base URL**: `https://bconomy.net/api/data`
 - **Authentication**: Uses `x-api-key` header
-- **Data Types**: pets, items
 
-### Example API Call
+### API Key System
 
-```javascript
-// Fetch pet data for ID #1
-const response = await axios.post('https://bconomy.net/api/data', {
-  type: 'pet',
-  id: 1
-}, {
-  headers: {
-    'Content-Type': 'application/json',
-    'x-api-key': process.env.MY_BCONOMY_API_KEY
-  }
-});
-```
+The application uses a flexible API key system:
+
+#### Default Key
+- A default API key is provided with the application
+- Subject to rate limiting (150 queries/minute)
+- Shared among all users who don't provide their own key
+
+#### Personal API Key
+- Users can provide their own API key through the navbar input
+- To get your API key:
+  1. Type `/resetapikey` in the Bconomy.net game console
+  2. Copy the generated key
+  3. Paste it in the API key input field in the navbar
+- To revoke access: Type `/resetapikey` again in game
+
+#### Technical Details
+- API keys are stored in browser's localStorage only
+- No server-side storage of user API keys
+- Keys persist across browser sessions but can be cleared
+- When no personal key is provided, falls back to default key automatically 
