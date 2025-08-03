@@ -9,7 +9,7 @@
         <table class="min-w-full text-sm">
           <thead>
             <tr
-              class="bg-gray-50 dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700"
+              class="bg-gray-50 dark:bg-gray-800 border-b-2 border-gray-100 dark:border-gray-900"
             >
               <th
                 class="px-2 py-2 text-left w-32 text-gray-700 dark:text-gray-200"
@@ -50,7 +50,7 @@
             >
               <td
                 :class="[
-                  'px-2 py-2 font-semibold sticky left-0 z-10 border-r border-gray-100 dark:border-gray-700 w-32 text-gray-700 dark:bg-gray-800 dark:text-gray-200',
+                  'px-2 py-2 font-semibold sticky left-0 z-10 border-r border-gray-100 dark:border-gray-900 w-32 text-gray-700 dark:bg-gray-800 dark:text-gray-200',
                   speciesCompletionMap[species]
                     ? 'bg-green-100 dark:bg-green-900 border-r-4 border-r-green-400 dark:border-r-green-900'
                     : '',
@@ -78,7 +78,7 @@
                 >
                 <span
                   v-else
-                  class="inline-block px-2 py-1 rounded text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500"
+                  class="inline-block px-2 py-1 rounded text-xs font-medium bg-gray-100 dark:bg-gray-900 text-gray-400 dark:text-gray-500"
                   title="Missing"
                   >—</span
                 >
