@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-6 min-h-screen dark:bg-gray-700">
+  <div class="space-y-6 dark:bg-gray-700">
     <!-- Chart Section -->
     <div class="max-w-4xl mx-auto" v-if="chartData.length > 0">
       <div

@@ -1,7 +1,10 @@
 <template>
   <div
     id="app"
-    :class="['min-h-screen', isDark ? 'dark bg-gray-700' : 'bg-gray-50']"
+    :class="[
+      'min-h-screen flex flex-col',
+      isDark ? 'dark bg-gray-700' : 'bg-gray-50',
+    ]"
   >
     <!-- Navigation -->
     <nav
@@ -13,7 +16,8 @@
       ]"
     >
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
+        <div class="flex h-16">
+          <!-- Logo and Title -->
           <div class="flex items-center gap-2">
             <img
               src="/img/detective.svg"
@@ -279,17 +283,14 @@ onMounted(() => {
   if (savedTheme) {
     isDark.value = savedTheme === "dark";
   } else {
-    // Fall back to system preference
     isDark.value = window.matchMedia("(prefers-color-scheme: dark)").matches;
   }
   updateTheme();
 
-  // Listen for system theme changes
   window
     .matchMedia("(prefers-color-scheme: dark)")
     .addEventListener("change", (e) => {
       if (!localStorage.getItem("theme")) {
-        // Only if user hasn't set a preference
         isDark.value = e.matches;
         updateTheme();
       }

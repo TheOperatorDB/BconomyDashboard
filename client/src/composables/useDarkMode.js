@@ -4,7 +4,6 @@ export function useDarkMode() {
   const isDark = ref(false);
 
   onMounted(() => {
-    // Check for saved theme preference or system preference
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme) {
       isDark.value = savedTheme === "dark";
@@ -13,7 +12,6 @@ export function useDarkMode() {
     }
     updateTheme();
 
-    // Listen for system theme changes
     window
       .matchMedia("(prefers-color-scheme: dark)")
       .addEventListener("change", (e) => {
