@@ -3,6 +3,11 @@ import axios from "axios";
 
 const apiUrl = import.meta.env.VITE_API_URL || "";
 
+const getRequestConfig = () => {
+  const apiKey = localStorage.getItem("bconomy_api_key");
+  return apiKey ? { headers: { "X-API-Key": apiKey } } : {};
+};
+
 export function pets() {
   const petsLoading = ref(false);
   const petsError = ref("");
@@ -27,7 +32,10 @@ export function pets() {
     var currentPet = null;
 
     try {
-      const response = await axios.get(`${apiUrl}/api/pets/${petId}`);
+      const response = await axios.get(
+        `${apiUrl}/api/pets/${petId}`,
+        getRequestConfig()
+      );
       currentPet = response.data;
     } catch (err) {
       if (err.response?.status === 404) {

@@ -58,8 +58,8 @@ async function getUserEffects(effects) {
   return sanitizedEffects;
 }
 
-async function getUserProfile(userId) {
-  const userProfile = await fetchBconomyResource("user", userId);
+async function getUserProfile(userId, req) {
+  const userProfile = await fetchBconomyResource("user", userId, req);
   if (!userProfile || userProfile?.error) return null;
 
   const profile = {
@@ -95,13 +95,13 @@ async function getUserProfile(userId) {
   };
 }
 
-async function getMarketInventory(userId, buddyId) {
+async function getMarketInventory(userId, req) {
   const items = await getItems();
 
   const [userInventory, marketData, userMarketListings] = await Promise.all([
-    fetchBconomyResource("flatInventory", userId),
-    fetchBconomyResource("marketPreview"),
-    fetchBconomyResource("userMarketListings", userId),
+    fetchBconomyResource("flatInventory", userId, req),
+    fetchBconomyResource("marketPreview", null, req),
+    fetchBconomyResource("userMarketListings", userId, req),
   ]);
 
   const listings = {};
@@ -152,15 +152,15 @@ async function getMarketInventory(userId, buddyId) {
   return userTotalInventory;
 }
 
-async function getUser(userId) {
-  const user = await getUserProfile(userId);
+async function getUser(userId, req) {
+  const user = await getUserProfile(userId, req);
   if (!user || user?.error) return null;
 
-  let pets = await getPetsByUserId(userId, user.profile.buddyId);
+  let pets = await getPetsByUserId(userId, user.profile.buddyId, req);
 
   return {
     ...user,
-    marketInventory: await getMarketInventory(userId),
+    marketInventory: await getMarketInventory(userId, req),
     pets: pets,
   };
 }
@@ -173,7 +173,7 @@ router.get("/:id", async (req, res, next) => {
       return res.status(400).json({ error: "Invalid user ID" });
     }
 
-    const userInventory = await getUser(userId);
+    const userInventory = await getUser(userId, req);
 
     if (!userInventory || userInventory?.error) {
       return res.status(404).json({ error: "User not found" });

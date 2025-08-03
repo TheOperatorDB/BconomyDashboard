@@ -3,6 +3,11 @@ import axios from "axios";
 
 const apiUrl = import.meta.env.VITE_API_URL || "";
 
+const getRequestConfig = () => {
+  const apiKey = localStorage.getItem("bconomy_api_key");
+  return apiKey ? { headers: { "X-API-Key": apiKey } } : {};
+};
+
 export function users() {
   const usersLoading = ref(false);
   const usersError = ref("");
@@ -27,7 +32,10 @@ export function users() {
     var currentUser = null;
 
     try {
-      const response = await axios.get(`${apiUrl}/api/users/${userId}`);
+      const response = await axios.get(
+        `${apiUrl}/api/users/${userId}`,
+        getRequestConfig()
+      );
       currentUser = response.data;
     } catch (err) {
       if (err.response?.status === 404) {

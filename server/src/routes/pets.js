@@ -26,8 +26,8 @@ function formatAdventureType(adventureType) {
   }
 }
 
-export async function getPetsByUserId(userId, buddyId) {
-  const userPets = await fetchBconomyResource("userPetsAndEggs", userId);
+export async function getPetsByUserId(userId, buddyId, req) {
+  const userPets = await fetchBconomyResource("userPetsAndEggs", userId, req);
   if (!userPets || userPets.error) {
     return [];
   }
@@ -58,7 +58,7 @@ export async function getPetsByUserId(userId, buddyId) {
 router.get("/:id", async (req, res, next) => {
   try {
     const petId = parseInt(req.params.id);
-    const data = await fetchBconomyResource("pet", petId);
+    const data = await fetchBconomyResource("pet", petId, req);
 
     if (!data || data?.error) {
       return res.status(404).json({ error: "Pet not found" });

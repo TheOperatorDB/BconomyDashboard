@@ -3,13 +3,14 @@ import axios from "axios";
 
 const apiUrl = import.meta.env.VITE_API_URL || "";
 
+const getRequestConfig = () => {
+  const apiKey = localStorage.getItem("bconomy_api_key");
+  return apiKey ? { headers: { "X-API-Key": apiKey } } : {};
+};
+
 export function market() {
   const marketLoading = ref(false);
   const marketError = ref("");
-
-  const searchMarket = async (itemId = 0) => {
-    return await fetchItemMarketDataById(itemId);
-  };
 
   const fetchItemMarketDataById = async (itemId) => {
     marketLoading.value = true;
@@ -17,7 +18,10 @@ export function market() {
     var marketValues = null;
 
     try {
-      const response = await axios.get(`${apiUrl}/api/market/${itemId}`);
+      const response = await axios.get(
+        `${apiUrl}/api/market/${itemId}`,
+        getRequestConfig()
+      );
       marketValues = response.data;
     } catch (err) {
       if (err.response?.status === 404) {

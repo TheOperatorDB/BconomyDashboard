@@ -43,7 +43,11 @@ export async function fetchItems() {
   return items;
 }
 
-export async function fetchBconomyResource(resourceType, id = null) {
+export async function fetchBconomyResource(
+  resourceType,
+  id = null,
+  req = null
+) {
   try {
     const requestBody = id
       ? { type: resourceType, id }
@@ -52,7 +56,7 @@ export async function fetchBconomyResource(resourceType, id = null) {
     const response = await axios.post(BCONOMY_API_URL, requestBody, {
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": config.apiKey,
+        "x-api-key": req?.userApiKey || config.apiKey,
       },
     });
 
