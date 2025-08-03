@@ -11,8 +11,6 @@ import { getPetsByUserId } from "./pets.js";
 const router = express.Router();
 
 async function getUserPerks(perks) {
-  if (!perks || Object.keys(perks).length === 0) return [];
-
   var sanitizedPerks = [];
 
   const allPerkKeys = Object.entries(getPerkData());
