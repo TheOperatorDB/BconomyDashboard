@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-6 dark:bg-gray-700">
     <!-- Chart Section -->
-    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+    <div class="max-w-4xl mx-auto">
       <div
         class="rounded-lg shadow-sm border dark:border-table-border-dark overflow-hidden dark:bg-gray-900"
       >
@@ -10,7 +10,7 @@
           class="px-6 py-4 border-b border-table-border-light dark:border-table-border-dark dark:bg-gray-800"
         >
           <div class="flex items-center">
-            <div class="w-full sm:w-1/3">
+            <div class="w-1/3">
               <label
                 class="block text-sm font-medium dark:text-table-primary-dark mb-2"
               >
@@ -72,10 +72,10 @@
 
         <!-- Chart -->
         <div
-          class="chart-wrapper dark:bg-gray-900 shadow-inner overflow-hidden relative w-full"
+          class="chart-wrapper dark:bg-gray-900 shadow-inner overflow-hidden"
         >
           <template v-if="chartData.length > 0">
-            <LWChart :data="chartData" class="w-full" />
+            <LWChart :data="chartData" />
           </template>
           <template v-else>
             <div
@@ -107,20 +107,42 @@
       </div>
 
       <!-- Price Change Cards -->
-      <div class="w-full flex justify-center mt-8 px-4 sm:px-6">
-        <div
-          class="max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 w-full"
-        >
+      <div class="w-full flex justify-center mt-8">
+        <div class="max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
           <!-- Current Price Card -->
           <div class="flex justify-center">
-            <div class="w-full">
+            <div class="w-full max-w-md">
               <div
                 class="rounded-lg shadow-sm border dark:border-table-border-dark p-3 flex flex-col min-h-32 dark:bg-gray-800"
               >
                 <div
-                  class="text-base text-table-primary-light dark:text-table-primary-dark mb-2"
+                  class="text-base text-table-primary-light dark:text-table-primary-dark mb-2 flex items-center gap-2"
                 >
                   Last Price
+                  <div v-if="isDataOld" class="relative group">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-5 h-5 text-amber-500"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+                      />
+                    </svg>
+                    <div
+                      class="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity"
+                    >
+                      Data is more than 1 hour old
+                      <div
+                        class="absolute left-1/2 -translate-x-1/2 top-full -mt-1 border-4 border-transparent border-t-gray-900"
+                      ></div>
+                    </div>
+                  </div>
                 </div>
                 <div class="flex flex-col gap-1">
                   <div class="text-xl font-bold dark:text-table-primary-dark">
@@ -137,7 +159,7 @@
           </div>
           <!-- 1 Hour Price Change Card -->
           <div v-if="priceChange1h" class="flex justify-center">
-            <div class="w-full">
+            <div class="w-full max-w-md">
               <div
                 class="rounded-lg shadow-sm border dark:border-table-border-dark p-3 flex flex-col min-h-32 dark:bg-gray-800"
               >
@@ -195,7 +217,7 @@
 
           <!-- 24 Hour Price Change Card -->
           <div v-if="priceChange24h" class="flex justify-center">
-            <div class="w-full">
+            <div class="w-full max-w-md">
               <div
                 class="rounded-lg shadow-sm border dark:border-table-border-dark p-3 flex flex-col min-h-32 dark:bg-gray-800"
               >
@@ -302,6 +324,12 @@ const latestData = computed(() => {
       : "0",
     time: lastPoint.time ? new Date(lastPoint.time * 1000) : null,
   };
+});
+
+const isDataOld = computed(() => {
+  if (!latestData.value.time) return false;
+  const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+  return latestData.value.time < oneHourAgo;
 });
 
 function calculatePriceChange(hoursAgo) {
