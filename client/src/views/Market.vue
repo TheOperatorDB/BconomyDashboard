@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-6 dark:bg-gray-700">
     <!-- Chart Section -->
-    <div class="max-w-4xl mx-auto" v-if="chartData.length > 0">
+    <div class="max-w-4xl mx-auto">
       <div
         class="rounded-lg shadow-sm border dark:border-table-border-dark overflow-hidden dark:bg-gray-900"
       >
@@ -74,7 +74,35 @@
         <div
           class="chart-wrapper dark:bg-gray-900 shadow-inner overflow-hidden"
         >
-          <LWChart :data="chartData" />
+          <template v-if="chartData.length > 0">
+            <LWChart :data="chartData" />
+          </template>
+          <template v-else>
+            <div
+              class="flex items-center justify-center p-12 text-gray-500 dark:text-gray-400"
+            >
+              <div class="text-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-12 w-12 mx-auto mb-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <p class="mb-2">No market data available for this item</p>
+                <p class="text-sm">
+                  Select a different item or check back later
+                </p>
+              </div>
+            </div>
+          </template>
         </div>
       </div>
 
@@ -82,7 +110,7 @@
       <div class="w-full flex justify-center mt-8">
         <div class="max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
           <!-- Current Price Card -->
-          <div v-if="latestValue" class="flex justify-center">
+          <div class="flex justify-center">
             <div class="w-full max-w-md">
               <div
                 class="rounded-lg shadow-sm border dark:border-table-border-dark p-3 flex flex-col min-h-32 dark:bg-gray-800"
