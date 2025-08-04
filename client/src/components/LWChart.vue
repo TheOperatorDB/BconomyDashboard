@@ -71,7 +71,8 @@ const getChartOptions = computed(() => {
       borderColor: theme.borderColor,
     },
     localization: {
-      priceFormatter: (price) => `${price.toLocaleString("en-US")} BC`,
+      priceFormatter: (price) =>
+        `${Math.floor(price).toLocaleString("en-US")} BC`,
       dateFormat: "yyyy-MM-dd",
       timeFormat: "HH:mm",
     },
