@@ -6,6 +6,17 @@
       isDark ? 'dark bg-gray-700' : 'bg-gray-50',
     ]"
   >
+    <!-- Environment Ribbon -->
+    <div
+      v-if="isDevelopment"
+      class="fixed top-0 right-0 w-32 h-32 overflow-hidden z-50 pointer-events-none"
+    >
+      <div
+        class="absolute top-[15px] right-[-30px] w-[120px] transform rotate-45 bg-purple-500 text-white text-xs text-center py-1 font-medium shadow-lg"
+      >
+        DEV
+      </div>
+    </div>
     <!-- Navigation -->
     <nav
       :class="[
@@ -276,8 +287,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted, provide } from "vue";
+import { ref, onMounted, provide, computed } from "vue";
 import "floating-vue/dist/style.css";
+
+const isDevelopment = computed(() => import.meta.env.MODE === "development");
 
 const navigation = [
   { name: "Market", href: "/market" },
@@ -372,18 +385,15 @@ body {
   overflow-x: hidden;
 }
 
-/* Hide scrollbar for Chrome, Safari and Opera */
 ::-webkit-scrollbar {
   display: none;
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
 * {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-/* Ensure router views take up proper height */
 .router-view-container {
   height: 100%;
   min-height: inherit;
