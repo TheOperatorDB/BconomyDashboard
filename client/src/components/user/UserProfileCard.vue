@@ -98,18 +98,14 @@
       <div class="py-4 space-y-4 border-t border-gray-100 dark:border-gray-800">
         <div class="grid grid-cols-4 gap-4 text-sm">
           <div>
-            <dt class="font-medium text-gray-900 dark:text-gray-100">
-              Fishing
-            </dt>
+            <dt class="font-medium text-gray-900 dark:text-gray-100">Fish</dt>
             <dd class="text-gray-500 dark:text-gray-400 capitalize">
               {{ profile.upgrades?.fish + profile.upgrades?.fishExtra }}
               <i>({{ profile.upgrades?.fishExtra || 0 }} extra)</i>
             </dd>
           </div>
           <div>
-            <dt class="font-medium text-gray-900 dark:text-gray-100">
-              Hunting
-            </dt>
+            <dt class="font-medium text-gray-900 dark:text-gray-100">Hunt</dt>
             <dd class="text-gray-500 dark:text-gray-400 capitalize">
               {{ profile.upgrades?.hunt + profile.upgrades?.huntExtra }}
               <i>({{ profile.upgrades?.huntExtra || 0 }} extra)</i>
@@ -117,7 +113,7 @@
           </div>
           <div>
             <dt class="font-medium text-gray-900 dark:text-gray-100">
-              Exploring
+              Explore
             </dt>
             <dd class="text-gray-500 dark:text-gray-400 capitalize">
               {{ profile.upgrades?.explore + profile.upgrades?.exploreExtra }}
@@ -125,7 +121,7 @@
             </dd>
           </div>
           <div>
-            <dt class="font-medium text-gray-900 dark:text-gray-100">Mining</dt>
+            <dt class="font-medium text-gray-900 dark:text-gray-100">Mine</dt>
             <dd class="text-gray-500 dark:text-gray-400 capitalize">
               {{ profile.upgrades?.mine + profile.upgrades?.mineExtra }}
               <i>({{ profile.upgrades?.mineExtra || 0 }} extra)</i>

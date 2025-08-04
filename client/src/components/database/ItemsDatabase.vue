@@ -46,13 +46,13 @@
             :key="source"
             :class="[
               'px-2 py-1 rounded text-xs',
-              source === 'Mining'
+              source === 'Mine'
                 ? 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200'
-                : source === 'Hunting'
+                : source === 'Hunt'
                   ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200'
-                  : source === 'Exploring'
+                  : source === 'Explore'
                     ? 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200'
-                    : source === 'Fishing'
+                    : source === 'Fish'
                       ? 'bg-cyan-100 dark:bg-cyan-900 text-cyan-800 dark:text-cyan-200'
                       : 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200',
             ]"

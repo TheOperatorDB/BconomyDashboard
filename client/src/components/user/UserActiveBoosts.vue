@@ -19,13 +19,13 @@
               v-if="row.action"
               :class="[
                 'inline-flex items-center px-2 py-1 rounded text-xs font-medium',
-                row.action === 'Mining'
+                row.action === 'Mine'
                   ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-                  : row.action === 'Hunting'
+                  : row.action === 'Hunt'
                     ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                    : row.action === 'Exploring'
+                    : row.action === 'Explore'
                       ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-                      : row.action === 'Fishing'
+                      : row.action === 'Fish'
                         ? 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-200'
                         : 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200',
               ]"

@@ -1,20 +1,14 @@
 import { getItemNameById } from "./itemsService.js";
 
+function capitalize(str) {
+  if (!str) return str;
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 function sanitizeAction(action) {
   if (!action) return null;
 
-  switch (action) {
-    case "fish":
-      return "Fishing";
-    case "hunt":
-      return "Hunting";
-    case "explore":
-      return "Exploring";
-    case "mine":
-      return "Mining";
-    default:
-      return `Unknown ${action}`;
-  }
+  return capitalize(action.toLowerCase());
 }
 
 function formatEffectEndTime(endTime) {

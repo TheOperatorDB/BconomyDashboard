@@ -12,18 +12,7 @@ function capitalize(str) {
 function formatAdventureType(adventureType) {
   if (!adventureType) return "Resting";
 
-  switch (adventureType.toLowerCase()) {
-    case "fish":
-      return "Fishing";
-    case "mine":
-      return "Mining";
-    case "hunt":
-      return "Hunting";
-    case "explore":
-      return "Exploring";
-    default:
-      return "Resting";
-  }
+  return capitalize(adventureType.toLowerCase());
 }
 
 export async function getPetsByUserId(userId, buddyId, req) {

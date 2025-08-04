@@ -6,13 +6,13 @@ export function formatSource(source) {
 
   switch (source.toLowerCase()) {
     case "explore":
-      return "Exploring";
+      return "Explore";
     case "mine":
-      return "Mining";
+      return "Mine";
     case "fish":
-      return "Fishing";
+      return "Fish";
     case "hunt":
-      return "Hunting";
+      return "Hunt";
     case "rare":
       return "Rare drop";
     case "item28":
@@ -40,8 +40,6 @@ export function getItemNameById(itemId) {
 }
 
 export function getItems() {
-  console.log("Getting all items from SQLite database...");
-
   const rows = db.prepare("SELECT * FROM items").all();
 
   return rows.map((item) => ({
