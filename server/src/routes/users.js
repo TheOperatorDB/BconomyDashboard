@@ -72,10 +72,12 @@ async function getUserProfile(userId, req) {
     sp: userProfile?.sp?.toLocaleString("en-US") || "0",
     kr: userProfile?.kr?.toLocaleString("en-US") || "0",
     buddyId: userProfile?.buddyId || null,
-    nbFarmPlots: userProfile?.farmPlots?.length || 0,
+    nbFarmPlots:
+      userProfile?.farmPlots?.filter((plot) => !plot.isExtra).length || 0,
     nbFarmPlotsExtra:
       userProfile?.farmPlots?.filter((plot) => plot.isExtra)?.length || 0,
-    nbGenerators: userProfile?.generators?.length || 0,
+    nbGenerators:
+      userProfile?.generators?.filter((gen) => !gen.isExtra)?.length || 0,
     nbGeneratorsExtra:
       userProfile?.generators?.filter((gen) => gen.isExtra)?.length || 0,
     nbStables: userProfile?.upgrades?.petsStable || 0,
