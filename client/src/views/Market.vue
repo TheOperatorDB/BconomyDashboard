@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-6 dark:bg-gray-700">
     <!-- Chart Section -->
-    <div class="max-w-4xl mx-auto">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
       <div
         class="rounded-lg shadow-sm border dark:border-table-border-dark overflow-hidden dark:bg-gray-900"
       >
@@ -10,7 +10,7 @@
           class="px-6 py-4 border-b border-table-border-light dark:border-table-border-dark dark:bg-gray-800"
         >
           <div class="flex items-center">
-            <div class="w-1/3">
+            <div class="w-full sm:w-1/3">
               <label
                 class="block text-sm font-medium dark:text-table-primary-dark mb-2"
               >
@@ -72,10 +72,10 @@
 
         <!-- Chart -->
         <div
-          class="chart-wrapper dark:bg-gray-900 shadow-inner overflow-hidden"
+          class="chart-wrapper dark:bg-gray-900 shadow-inner overflow-hidden relative w-full"
         >
           <template v-if="chartData.length > 0">
-            <LWChart :data="chartData" />
+            <LWChart :data="chartData" class="w-full" />
           </template>
           <template v-else>
             <div
@@ -107,30 +107,37 @@
       </div>
 
       <!-- Price Change Cards -->
-      <div class="w-full flex justify-center mt-8">
-        <div class="max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+      <div class="w-full flex justify-center mt-8 px-4 sm:px-6">
+        <div
+          class="max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 w-full"
+        >
           <!-- Current Price Card -->
           <div class="flex justify-center">
-            <div class="w-full max-w-md">
+            <div class="w-full">
               <div
                 class="rounded-lg shadow-sm border dark:border-table-border-dark p-3 flex flex-col min-h-32 dark:bg-gray-800"
               >
                 <div
                   class="text-base text-table-primary-light dark:text-table-primary-dark mb-2"
                 >
-                  Current Price
+                  Last Price
                 </div>
-                <div
-                  class="flex items-center text-xl font-bold py-2 dark:text-table-primary-dark"
-                >
-                  <span>{{ latestValue }} BC</span>
+                <div class="flex flex-col gap-1">
+                  <div class="text-xl font-bold dark:text-table-primary-dark">
+                    {{ latestData.value }} BC
+                  </div>
+                  <template v-if="latestData.time">
+                    <div class="text-sm text-gray-500 dark:text-gray-400">
+                      {{ latestData.time.toLocaleString("en-US") }}
+                    </div>
+                  </template>
                 </div>
               </div>
             </div>
           </div>
           <!-- 1 Hour Price Change Card -->
           <div v-if="priceChange1h" class="flex justify-center">
-            <div class="w-full max-w-md">
+            <div class="w-full">
               <div
                 class="rounded-lg shadow-sm border dark:border-table-border-dark p-3 flex flex-col min-h-32 dark:bg-gray-800"
               >
@@ -188,7 +195,7 @@
 
           <!-- 24 Hour Price Change Card -->
           <div v-if="priceChange24h" class="flex justify-center">
-            <div class="w-full max-w-md">
+            <div class="w-full">
               <div
                 class="rounded-lg shadow-sm border dark:border-table-border-dark p-3 flex flex-col min-h-32 dark:bg-gray-800"
               >
@@ -286,10 +293,15 @@ const filteredItems = computed(() => {
   return filtered;
 });
 
-const latestValue = computed(() => {
-  if (chartData.value.length === 0) return 0;
-  const value = chartData.value[chartData.value.length - 1]?.value;
-  return value ? Math.floor(value).toLocaleString("en-US") : "0";
+const latestData = computed(() => {
+  if (chartData.value.length === 0) return { value: 0, time: null };
+  const lastPoint = chartData.value[chartData.value.length - 1];
+  return {
+    value: lastPoint.value
+      ? Math.floor(lastPoint.value).toLocaleString("en-US")
+      : "0",
+    time: lastPoint.time ? new Date(lastPoint.time * 1000) : null,
+  };
 });
 
 function calculatePriceChange(hoursAgo) {

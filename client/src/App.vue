@@ -24,7 +24,9 @@
               alt="Bconomy Logo"
               class="w-8 h-8 object-contain"
             />
-            <h1 class="text-xl font-bold text-gray-900 dark:text-gray-100">
+            <h1
+              class="hidden sm:block text-xl font-bold text-gray-900 dark:text-gray-100"
+            >
               <a
                 href="https://bconomy.net/play/"
                 target="_blank"
@@ -38,7 +40,57 @@
 
           <!-- Navigation and Controls -->
           <div class="flex items-center justify-end flex-1 space-x-4">
-            <div class="flex items-center space-x-4">
+            <!-- Mobile Menu Button -->
+            <div class="sm:hidden relative">
+              <button
+                @click="isMenuOpen = !isMenuOpen"
+                class="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-gray-800 focus:outline-none"
+              >
+                <svg
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    v-if="!isMenuOpen"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                  <path
+                    v-else
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+              <!-- Mobile Menu Dropdown -->
+              <div
+                v-if="isMenuOpen"
+                class="absolute left-0 mt-2 w-48 rounded-md shadow-lg py-1 dark:bg-gray-800 ring-1 ring-black ring-opacity-5 z-50"
+              >
+                <router-link
+                  v-for="item in navigation"
+                  :key="item.name"
+                  :to="item.href"
+                  :class="[
+                    $route.path === item.href
+                      ? 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100'
+                      : 'text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800',
+                    'block px-4 py-2 text-sm',
+                  ]"
+                  @click="isMenuOpen = false"
+                >
+                  {{ item.name }}
+                </router-link>
+              </div>
+            </div>
+            <!-- Desktop Navigation -->
+            <div class="hidden sm:flex items-center space-x-4">
               <router-link
                 v-for="item in navigation"
                 :key="item.name"
@@ -122,8 +174,12 @@
       </div>
     </nav>
 
-    <main class="flex-1 max-w-7xl w-full mx-auto py-6 pb-12 sm:px-6 lg:px-8">
-      <router-view />
+    <main
+      class="flex-1 max-w-7xl w-full mx-auto py-6 pb-12 sm:px-6 lg:px-8 min-h-[calc(100vh-8rem)]"
+    >
+      <div class="h-full">
+        <router-view />
+      </div>
     </main>
 
     <!-- Footer -->
@@ -233,6 +289,7 @@ const navigation = [
 const isDark = ref(false);
 const apiKey = ref(localStorage.getItem("bconomy_api_key") || "");
 const showApiHelp = ref(false);
+const isMenuOpen = ref(false);
 
 const isInputFocused = ref(false);
 const displayedApiKey = ref("");
@@ -307,5 +364,30 @@ onMounted(() => {
     "Segoe UI",
     Roboto,
     sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+* {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Ensure router views take up proper height */
+.router-view-container {
+  height: 100%;
+  min-height: inherit;
+  display: flex;
+  flex-direction: column;
 }
 </style>
