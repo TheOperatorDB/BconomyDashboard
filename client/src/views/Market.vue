@@ -259,10 +259,9 @@ const filteredItems = computed(() => {
 });
 
 const latestValue = computed(() => {
-  if (chartData.value.length === 0) return null;
-  return chartData.value[chartData.value.length - 1]?.value?.toLocaleString(
-    "en-US"
-  );
+  if (chartData.value.length === 0) return 0;
+  const value = chartData.value[chartData.value.length - 1]?.value;
+  return value ? Math.floor(value).toLocaleString("en-US") : "0";
 });
 
 function calculatePriceChange(hoursAgo) {
