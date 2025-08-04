@@ -137,9 +137,9 @@ async function getMarketInventory(userId, req) {
       quantity: (userInventory?.[key] || 0).toLocaleString("en-US") || "0",
       marketQuantity: marketListings.toLocaleString("en-US") || "0",
       totalMarketValue:
-        new BigNumber(
-          value * (userInventory?.[key] ?? 0 + marketListings)
-        ).toFormat(0) || "0",
+        new BigNumber(value)
+          .times(new BigNumber(userInventory?.[key] ?? 0).plus(marketListings))
+          .toFormat(0) || "0",
     });
   });
 
