@@ -37,52 +37,114 @@
             </tr>
           </thead>
           <tbody class="bg-white dark:bg-gray-900">
-            <tr
-              v-for="species in allSpecies"
-              :key="species"
-              :class="[
-                'transition-colors',
-                speciesCompletionMap[species]
-                  ? 'bg-green-50 dark:bg-gray-700 '
-                  : 'hover:bg-yellow-50 hover:dark:bg-gray-700 dark:bg-gray-800',
-              ]"
-            >
-              <td
+            <!-- Regular species -->
+            <template v-for="species in allSpecies.slice(0, -5)" :key="species">
+              <tr
                 :class="[
-                  'px-2 py-2 font-semibold sticky left-0 z-10 border-r border-gray-100 dark:border-gray-900 w-32 text-gray-700 dark:bg-gray-800 dark:text-gray-200',
+                  'transition-colors',
                   speciesCompletionMap[species]
-                    ? 'bg-green-100 dark:bg-green-900 border-r-4 border-r-green-400 dark:border-r-green-900'
-                    : '',
+                    ? 'bg-green-50 dark:bg-gray-700'
+                    : 'hover:bg-yellow-50 hover:dark:bg-gray-700 dark:bg-gray-800',
                 ]"
               >
-                {{ species }}
-                <span
-                  v-if="speciesCompletionMap[species]"
-                  class="ml-2 inline-block text-green-600 dark:text-green-200"
-                  title="Complete collection for this species"
+                <td
+                  :class="[
+                    'px-2 py-2 font-semibold sticky left-0 z-10 border-r border-gray-100 dark:border-gray-900 w-32 text-gray-700 dark:bg-gray-800 dark:text-gray-200',
+                    speciesCompletionMap[species]
+                      ? 'bg-green-100 dark:bg-green-900 border-r-4 border-r-green-400 dark:border-r-green-900'
+                      : '',
+                  ]"
                 >
-                  ⭐
-                </span>
-              </td>
-              <td
-                v-for="skin in allSkins"
-                :key="skin"
-                class="px-2 py-2 text-center w-24"
-              >
-                <span
-                  v-if="userHasSkin(species, skin)"
-                  class="inline-block px-2 py-1 rounded text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 shadow"
-                  title="Owned"
-                  >✔</span
+                  {{ species }}
+                  <span
+                    v-if="speciesCompletionMap[species]"
+                    class="ml-2 inline-block text-green-600 dark:text-green-200"
+                    title="Complete collection for this species"
+                  >
+                    ⭐
+                  </span>
+                </td>
+                <td
+                  v-for="skin in allSkins"
+                  :key="skin"
+                  class="px-2 py-2 text-center w-24"
                 >
-                <span
-                  v-else
-                  class="inline-block px-2 py-1 rounded text-xs font-medium bg-gray-100 dark:bg-gray-900 text-gray-400 dark:text-gray-500"
-                  title="Missing"
-                  >—</span
-                >
+                  <span
+                    v-if="userHasSkin(species, skin)"
+                    class="inline-block px-2 py-1 rounded text-xs font-medium bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 shadow"
+                    title="Owned"
+                    >✔</span
+                  >
+                  <span
+                    v-else
+                    class="inline-block px-2 py-1 rounded text-xs font-medium bg-gray-100 dark:bg-gray-900 text-gray-400 dark:text-gray-500"
+                    title="Missing"
+                    >—</span
+                  >
+                </td>
+              </tr>
+            </template>
+
+            <tr
+              class="border-t-2 border-b-2 border-gray-300 dark:border-gray-600 dark:bg-gray-800"
+            >
+              <td colspan="10" class="py-2 px-2">
+                <div class="flex items-center gap-3">
+                  <span
+                    class="text-sm font-medium text-gray-500 dark:text-gray-400"
+                    >Premium Pets</span
+                  >
+                </div>
               </td>
             </tr>
+
+            <!-- Special species -->
+            <template v-for="species in allSpecies.slice(-5)" :key="species">
+              <tr
+                :class="[
+                  'transition-colors',
+                  speciesCompletionMap[species]
+                    ? 'bg-yellow-50 dark:bg-gray-700'
+                    : 'hover:bg-yellow-50 hover:dark:bg-gray-700 dark:bg-gray-800',
+                ]"
+              >
+                <td
+                  :class="[
+                    'px-2 py-2 font-semibold sticky left-0 z-10 border-r border-gray-100 dark:border-gray-900 w-32 text-gray-700 dark:bg-gray-800 dark:text-gray-200',
+                    speciesCompletionMap[species]
+                      ? 'bg-yellow-100 dark:bg-yellow-900/30 border-r-4 border-r-yellow-400 dark:border-r-yellow-900'
+                      : '',
+                  ]"
+                >
+                  {{ species }}
+                  <span
+                    v-if="speciesCompletionMap[species]"
+                    class="ml-2 inline-block text-yellow-600 dark:text-yellow-400"
+                    title="Complete collection for this special species"
+                  >
+                    🌟
+                  </span>
+                </td>
+                <td
+                  v-for="skin in allSkins"
+                  :key="skin"
+                  class="px-2 py-2 text-center w-24"
+                >
+                  <span
+                    v-if="userHasSkin(species, skin)"
+                    class="inline-block px-2 py-1 rounded text-xs font-medium bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200 shadow"
+                    title="Owned"
+                    >✔</span
+                  >
+                  <span
+                    v-else
+                    class="inline-block px-2 py-1 rounded text-xs font-medium bg-gray-100 dark:bg-gray-900 text-gray-400 dark:text-gray-500"
+                    title="Missing"
+                    >—</span
+                  >
+                </td>
+              </tr>
+            </template>
           </tbody>
         </table>
       </div>
@@ -103,11 +165,9 @@ const allSpecies = [
   "Dolphin",
   "Donkey",
   "Dove",
-  "Dragon",
   "Eagle",
   "Goose",
   "Gorilla",
-  "Invader",
   "Junglefowl",
   "Kangaroo",
   "Lizard",
@@ -115,19 +175,22 @@ const allSpecies = [
   "Otter",
   "Ox",
   "Peacock",
-  "Phoenix",
   "Poodle",
   "Pig",
   "Rabbit",
   "Rat",
-  "Scorpion",
   "Seal",
   "Snail",
   "Snake",
   "Tiger",
   "Turtle",
-  "Visitor",
   "Whale",
+  // Special species
+  "Scorpion",
+  "Dragon",
+  "Phoenix",
+  "Visitor",
+  "Invader",
 ];
 
 const allSkins = [
