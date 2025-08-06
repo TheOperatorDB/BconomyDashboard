@@ -64,106 +64,7 @@
     <div v-if="currentPet && !petsLoading && !petsLoading">
       <PetCard :pet="currentPet" @owner-click="goToOwner" />
 
-        <div class="border-t border-gray-100 dark:border-gray-800 pt-4">
-          <div class="grid grid-cols-2 gap-4 text-sm">
-            <div>
-              <dt class="font-medium text-gray-900 dark:text-gray-100">
-                Adventure type
-              </dt>
-              <dd class="text-gray-500 dark:text-gray-400 capitalize">
-                {{ currentPet.adventureType ?? "Resting" }}
-              </dd>
-            </div>
-            <div>
-              <dt class="font-medium text-gray-900 dark:text-gray-100">
-                Items Found
-              </dt>
-              <dd class="text-gray-500 dark:text-gray-400">
-                {{ currentPet.lifetimeItemsFound ?? "0" }}
-              </dd>
-            </div>
-            <div>
-              <dt class="font-medium text-gray-900 dark:text-gray-100">
-                Adventure boost
-              </dt>
-              <dd class="text-gray-500 dark:text-gray-400">
-                <span
-                  class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-orange-100 dark:bg-orange-900 text-badge-orange-light dark:text-badge-orange-dark"
-                  v-if="
-                    currentPet.adventureBoost &&
-                    currentPet.adventureBoost.endTime
-                  "
-                >
-                  x{{ currentPet.adventureBoost.multiplier }} for
-                  {{
-                    timestampToDaysAgo(currentPet.adventureBoost.endTime) === 0
-                      ? "less than 1 day"
-                      : `${timestampToDaysAgo(currentPet.adventureBoost.endTime)} days`
-                  }}
-                </span>
-                <span v-else class="text-gray-500 dark:text-gray-400">
-                  No active boost
-                </span>
-              </dd>
-            </div>
-          </div>
-        </div>
-
-        <div class="border-t border-gray-100 dark:border-gray-800 pt-4">
-          <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
-            Heritage
-          </h4>
-          <div class="flex flex-wrap gap-2">
-            <span
-              v-if="currentPet.skin"
-              class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-blue-100 dark:bg-blue-900 text-badge-blue-light dark:text-badge-blue-dark"
-            >
-              {{
-                currentPet.skin.charAt(0).toUpperCase() +
-                currentPet.skin.slice(1)
-              }}
-              skin
-            </span>
-            <span
-              v-if="currentPet.aura"
-              class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-green-100 dark:bg-green-900 text-badge-green-light dark:text-badge-green-dark"
-            >
-              {{
-                currentPet.aura.charAt(0).toUpperCase() +
-                currentPet.aura.slice(1)
-              }}
-              aura
-            </span>
-            <span
-              v-if="currentPet.craving"
-              class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-yellow-100 dark:bg-yellow-900 text-badge-yellow-light dark:text-badge-yellow-dark"
-            >
-              Craving x{{ currentPet.craving.quantity }}
-              {{ currentPet.craving.item }}
-            </span>
-          </div>
-        </div>
-
-        <div
-          class="border-t border-gray-100 dark:border-gray-800 pt-4 text-xs text-gray-500 dark:text-gray-400"
-        >
-          <div>
-            Hatched: {{ formatDate(currentPet.hatchDate) }}
-            <i>({{ timestampToDaysAgo(currentPet.hatchDate) }} days ago)</i>
-          </div>
-          <div v-if="currentPet.lastBred">
-            Last bred: {{ formatDate(currentPet.lastBred) }}
-            <i>({{ timestampToDaysAgo(currentPet.lastBred) }} days ago)</i>
-          </div>
-          <div v-if="currentPet.lastAdventureSync">
-            Last adventure: {{ formatDate(currentPet.lastAdventureSync) }}
-            <i
-              >({{ timestampToDaysAgo(currentPet.lastAdventureSync) }} days
-              ago)</i
-            >
-          </div>
-        </div>
-      </div>
+      <PetOffsprings :offsprings="currentPet?.offsprings" />
     </div>
 
     <div
@@ -200,6 +101,8 @@ import { ref, watch, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { pets } from "../composables/pets.js";
 import PetCard from "../components/pets/PetCard.vue";
+import PetOffsprings from "../components/pets/PetOffsprings.vue";
+import CollapsibleModule from "../components/CollapsibleModule.vue";
 
 const router = useRouter();
 const route = useRoute();
@@ -226,5 +129,8 @@ async function searchPetById() {
   if (petId.value) {
     router.push(`/pets/${petId.value}`);
   }
+}
+function goToOwner(userId) {
+  router.push(`/users/${userId}`);
 }
 </script>

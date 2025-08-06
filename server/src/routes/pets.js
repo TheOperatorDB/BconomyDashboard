@@ -46,32 +46,53 @@ export async function getPetsByUserId(userId, buddyId, req) {
 router.get("/:id", async (req, res, next) => {
   try {
     const petId = parseInt(req.params.id);
-    const data = await fetchBconomyResource("pet", petId, req);
+    const pet = await fetchBconomyResource("pet", petId, req);
+    const owner =
+      pet?.ownerBcId && pet?.ownerBcId !== "0"
+        ? await fetchBconomyResource("user", pet.ownerBcId, req)
+        : null;
+    const offsprings = await fetchBconomyResource("petOffspring", petId);
 
-    if (!data || data?.error) {
+    const sanitizedOwner = owner
+      ? {
+          id: owner.id,
+          name: owner.name || "Unknown",
+        }
+      : null;
+
+    if (!pet || pet?.error) {
       return res.status(404).json({ error: "Pet not found" });
     }
 
-    console.log(data);
-
     const sanitizedData = {
-      ...data,
+      ...pet,
+      owner: sanitizedOwner,
       adventureBoost: {
-        multiplier: data.adventureBoost?.multiplier || 1,
-        endTime: data.adventureBoost?.endTime
-          ? new Date(data.adventureBoost.endTime).toISOString()
+        multiplier: pet.adventureBoost?.multiplier || 1,
+        endTime: pet.adventureBoost?.endTime
+          ? new Date(pet.adventureBoost.endTime).toISOString()
           : null,
       },
-      xp: data.xp.toLocaleString("en-US"),
-      lifetimeItemsFound: data.lifetimeItemsFound.toLocaleString("en-US"),
-      skin: capitalize(data.skin),
-      aura: capitalize(data.aura),
-      species: capitalize(data.species),
-      adventureType: formatAdventureType(data.adventureType),
+      xp: pet.xp.toLocaleString("en-US"),
+      lifetimeItemsFound: pet.lifetimeItemsFound.toLocaleString("en-US"),
+      skin: capitalize(pet.skin),
+      aura: capitalize(pet.aura),
+      species: capitalize(pet.species),
+      adventureType: formatAdventureType(pet.adventureType),
       craving: {
-        quantity: data.craving?.amount || 0,
-        item: getItemNameById(parseInt(data.craving?.itemId)) || "Unknown",
+        quantity: pet.craving?.amount || 0,
+        item: getItemNameById(parseInt(pet.craving?.itemId)) || "Unknown",
       },
+      offsprings:
+        offsprings?.pets?.map((offspring) => ({
+          id: offspring.id,
+          name: offspring.name,
+          species: capitalize(offspring.species),
+          generation: offspring.generation,
+          skin: capitalize(offspring.skin),
+          aura: capitalize(offspring.aura),
+          tier: offspring.tier,
+        })) || [],
     };
 
     res.json({
