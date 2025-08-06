@@ -21,7 +21,7 @@
                 :class="[
                   'px-2 py-2 text-center w-24 text-gray-700 dark:text-gray-200',
                   skinCompletionMap[skin]
-                    ? 'bg-green-100 dark:bg-green-900/30 border-b-4 border-b-green-400 dark:border-b-green-900'
+                    ? 'bg-green-100 dark:bg-emerald-950 border-b-4 border-b-green-400 dark:border-b-green-900'
                     : '',
                 ]"
               >
@@ -41,18 +41,18 @@
             <template v-for="species in allSpecies.slice(0, -5)" :key="species">
               <tr
                 :class="[
-                  'transition-colors',
+                  ' hover:bg-green-200 hover:dark:!bg-gray-700 group',
                   speciesCompletionMap[species]
-                    ? 'bg-green-50 dark:bg-gray-700'
-                    : 'hover:bg-gray-50 hover:dark:bg-gray-700 dark:bg-gray-800',
+                    ? 'bg-green-100 dark:bg-emerald-950'
+                    : ' dark:bg-gray-800',
                 ]"
               >
                 <td
                   :class="[
-                    'px-2 py-2 font-semibold sticky left-0 z-10 border-r border-gray-100 dark:border-gray-900 w-32 text-gray-700 dark:bg-gray-800 dark:text-gray-200',
+                    'px-2 py-2 font-semibold sticky left-0 z-10 border-r border-gray-100 dark:border-gray-900 w-32 dark:!text-gray-200',
                     speciesCompletionMap[species]
-                      ? 'bg-green-100 dark:bg-green-900/30 border-r-4 border-r-green-400 dark:border-r-green-900'
-                      : '',
+                      ? 'bg-green-100 border-r-4 dark:bg-emerald-950 border-r-green-400 dark:border-r-green-900'
+                      : 'bg-white text-gray-700 dark:!bg-gray-800 ',
                   ]"
                 >
                   {{ species }}
@@ -70,7 +70,7 @@
                   :class="[
                     'px-2 py-2 text-center w-24',
                     skinCompletionMap[skin]
-                      ? 'bg-green-100 dark:bg-green-900/30'
+                      ? 'bg-green-100 dark:bg-emerald-950 group-hover:bg-transparent'
                       : '',
                   ]"
                 >
@@ -94,11 +94,9 @@
               class="border-t-2 border-b-2 border-gray-300 dark:border-gray-600 dark:bg-gray-800"
             >
               <td
-                class="py-2 px-2 font-semibold sticky left-0 z-10 border-r border-gray-100 dark:border-gray-900"
+                class="py-2 px-2 font-semibold sticky left-0 z-10 border-gray-100 dark:border-gray-900"
               >
-                <span
-                  class="text-sm font-medium text-gray-500 dark:text-gray-400"
-                >
+                <span class="text-left w-32 text-gray-700 dark:text-gray-200">
                   Premium Pets
                 </span>
               </td>
@@ -106,7 +104,7 @@
                 v-for="skin in allSkins"
                 :key="skin"
                 :class="[
-                  'px-2 py-2 text-center w-24 text-gray-700 dark:text-gray-200',
+                  'px-2 py-2 text-center w-24 font-semibold text-gray-700 dark:text-gray-200',
                   premiumSkinCompletionMap[skin]
                     ? 'bg-yellow-100 dark:bg-yellow-900/30 border-b-4 border-b-yellow-400 dark:border-b-yellow-900'
                     : '',
@@ -126,18 +124,18 @@
             <template v-for="species in allSpecies.slice(-5)" :key="species">
               <tr
                 :class="[
-                  'transition-colors',
+                  'hover:bg-yellow-200 hover:dark:bg-gray-700 group',
                   speciesCompletionMap[species]
-                    ? 'bg-yellow-50 dark:bg-gray-700'
-                    : 'hover:bg-gray-50 hover:dark:bg-gray-700 dark:bg-gray-800',
+                    ? 'bg-yellow-100 dark:bg-yellow-950'
+                    : 'dark:bg-gray-800',
                 ]"
               >
                 <td
                   :class="[
-                    'px-2 py-2 font-semibold sticky left-0 z-10 border-r border-gray-100 dark:border-gray-900 w-32 text-gray-700 dark:bg-gray-800 dark:text-gray-200',
+                    'px-2 py-2 font-semibold sticky left-0 z-10 border-r border-gray-100 dark:border-gray-900 w-32 text-gray-700 dark:!text-gray-200',
                     speciesCompletionMap[species]
-                      ? 'bg-yellow-100 dark:bg-yellow-900/30 border-r-4 border-r-yellow-400 dark:border-r-yellow-900'
-                      : '',
+                      ? 'bg-yellow-100 dark:bg-yellow-950 border-r-4 border-r-yellow-400 dark:border-r-yellow-900'
+                      : 'bg-white dark:!bg-gray-800',
                   ]"
                 >
                   {{ species }}
@@ -155,13 +153,13 @@
                   :class="[
                     'px-2 py-2 text-center w-24',
                     premiumSkinCompletionMap[skin]
-                      ? 'bg-yellow-100 dark:bg-yellow-900/30'
+                      ? 'bg-yellow-100 dark:bg-yellow-950 group-hover:bg-transparent'
                       : '',
                   ]"
                 >
                   <span
                     v-if="userHasSkin(species, skin)"
-                    class="inline-block px-2 py-1 rounded text-xs font-medium bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200 shadow"
+                    class="inline-block px-2 py-1 rounded text-xs font-medium bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 shadow"
                     title="Owned"
                     >✔</span
                   >
