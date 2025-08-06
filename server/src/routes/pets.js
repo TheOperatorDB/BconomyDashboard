@@ -32,14 +32,13 @@ export async function getPetsByUserId(userId, buddyId, req) {
     aura: capitalize(pet.aura),
   }));
 
-  // Move buddy pet to the top
-  if (buddyId) {
-    pets = pets.slice().sort((a, b) => {
+  pets = pets.slice().sort((a, b) => {
+    if (buddyId) {
       if (a.id === buddyId) return -1;
       if (b.id === buddyId) return 1;
-      return 0;
-    });
-  }
+    }
+    return a.name.localeCompare(b.name);
+  });
 
   return pets;
 }
@@ -53,8 +52,16 @@ router.get("/:id", async (req, res, next) => {
       return res.status(404).json({ error: "Pet not found" });
     }
 
+    console.log(data);
+
     const sanitizedData = {
       ...data,
+      adventureBoost: {
+        multiplier: data.adventureBoost?.multiplier || 1,
+        endTime: data.adventureBoost?.endTime
+          ? new Date(data.adventureBoost.endTime).toISOString()
+          : null,
+      },
       xp: data.xp.toLocaleString("en-US"),
       lifetimeItemsFound: data.lifetimeItemsFound.toLocaleString("en-US"),
       skin: capitalize(data.skin),

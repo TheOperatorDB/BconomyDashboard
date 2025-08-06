@@ -62,11 +62,11 @@
 
     <!-- Loaded -->
     <div
-      v-if="currentPet && !petsLoading && !itemsLoading"
+      v-if="currentPet && !petsLoading && !petsLoading"
       class="bg-card-light dark:bg-card-dark shadow rounded-lg overflow-hidden border border-table-border-light dark:border-table-border-dark"
     >
       <div
-        class="p-2 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900 dark:to-pink-900"
+        class="p-2 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-900"
       >
         <div class="flex items-center justify-between">
           <div class="flex items-center">
@@ -145,13 +145,17 @@
                 {{ currentPet.lifetimeItemsFound ?? "0" }}
               </dd>
             </div>
-            <div v-if="currentPet.adventureBoost">
+            <div>
               <dt class="font-medium text-gray-900 dark:text-gray-100">
                 Adventure boost
               </dt>
               <dd class="text-gray-500 dark:text-gray-400">
                 <span
                   class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-orange-100 dark:bg-orange-900 text-badge-orange-light dark:text-badge-orange-dark"
+                  v-if="
+                    currentPet.adventureBoost &&
+                    currentPet.adventureBoost.endTime
+                  "
                 >
                   x{{ currentPet.adventureBoost.multiplier }} for
                   {{
@@ -159,6 +163,9 @@
                       ? "less than 1 day"
                       : `${timestampToDaysAgo(currentPet.adventureBoost.endTime)} days`
                   }}
+                </span>
+                <span v-else class="text-gray-500 dark:text-gray-400">
+                  No active boost
                 </span>
               </dd>
             </div>
