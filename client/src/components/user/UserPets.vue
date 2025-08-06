@@ -118,9 +118,9 @@ import TableModule from "../TableModule.vue";
 
 const petColumns = [
   { key: "name", label: "NAME", sortable: true, filterable: true },
-  { key: "tier", label: "TIER", sortable: true },
   { key: "species", label: "SPECIES", sortable: true, filterable: true },
   { key: "generation", label: "GENERATION", sortable: true },
+  { key: "tier", label: "TIER", sortable: true },
   {
     key: "adventureType",
     label: "ADVENTURE TYPE",
