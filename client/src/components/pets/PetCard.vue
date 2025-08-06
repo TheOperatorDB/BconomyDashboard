@@ -130,7 +130,7 @@
 
       <div class="border-t border-gray-100 dark:border-gray-800 pt-4">
         <div class="grid grid-cols-3 gap-4">
-          <div>
+          <div v-if="pet.skin || pet.aura">
             <h4
               class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2"
             >

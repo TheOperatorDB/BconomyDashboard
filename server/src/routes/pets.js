@@ -46,23 +46,24 @@ export async function getPetsByUserId(userId, buddyId, req) {
 router.get("/:id", async (req, res, next) => {
   try {
     const petId = parseInt(req.params.id);
-    const pet = await fetchBconomyResource("pet", petId, req);
-    const owner =
-      pet?.ownerBcId && pet?.ownerBcId !== "0"
-        ? await fetchBconomyResource("user", pet.ownerBcId, req)
-        : null;
-    const offsprings = await fetchBconomyResource("petOffspring", petId);
-
-    const sanitizedOwner = owner
-      ? {
-          id: owner.id,
-          name: owner.name || "Unknown",
-        }
-      : null;
+    const [pet, offsprings] = await Promise.all([
+      fetchBconomyResource("pet", petId, req),
+      fetchBconomyResource("petOffspring", petId),
+    ]);
 
     if (!pet || pet?.error) {
       return res.status(404).json({ error: "Pet not found" });
     }
+
+    const sanitizedOwner =
+      pet?.ownerBcId && pet?.ownerBcId !== "0"
+        ? await fetchBconomyResource("user", pet.ownerBcId, req).then(
+            (owner) => ({
+              id: owner?.id,
+              name: owner?.name || "Unknown",
+            })
+          )
+        : null;
 
     const sanitizedData = {
       ...pet,

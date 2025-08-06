@@ -102,7 +102,6 @@ import { useRoute, useRouter } from "vue-router";
 import { pets } from "../composables/pets.js";
 import PetCard from "../components/pets/PetCard.vue";
 import PetOffsprings from "../components/pets/PetOffsprings.vue";
-import CollapsibleModule from "../components/CollapsibleModule.vue";
 
 const router = useRouter();
 const route = useRoute();
