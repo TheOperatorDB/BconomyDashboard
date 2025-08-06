@@ -119,159 +119,62 @@
                   class="text-base text-table-primary-light dark:text-table-primary-dark mb-2 flex items-center gap-2"
                 >
                   Last Price
-                  <div v-if="isDataOld" class="relative group">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="w-5 h-5 text-amber-500"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
-                      />
-                    </svg>
-                    <div
-                      class="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity"
-                    >
-                      Data is more than 1 hour old
-                      <div
-                        class="absolute left-1/2 -translate-x-1/2 top-full -mt-1 border-4 border-transparent border-t-gray-900"
-                      ></div>
-                    </div>
-                  </div>
                 </div>
                 <div class="flex flex-col gap-1">
                   <div class="text-xl font-bold dark:text-table-primary-dark">
                     {{ latestData.value }} BC
                   </div>
                   <template v-if="latestData.time">
-                    <div class="text-sm text-gray-500 dark:text-gray-400">
+                    <div
+                      class="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-2"
+                    >
                       {{ latestData.time.toLocaleString("en-US") }}
+                      <div v-if="isDataOld" class="relative group">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke-width="1.5"
+                          stroke="currentColor"
+                          class="w-5 h-5 text-amber-500"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+                          />
+                        </svg>
+                        <div
+                          class="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity"
+                        >
+                          Data is more than 1 hour old
+                          <div
+                            class="absolute left-1/2 -translate-x-1/2 top-full -mt-1 border-4 border-transparent border-t-gray-900"
+                          ></div>
+                        </div>
+                      </div>
                     </div>
                   </template>
                 </div>
               </div>
             </div>
           </div>
-          <!-- 1 Hour Price Change Card -->
-          <div v-if="priceChange1h" class="flex justify-center">
-            <div class="w-full max-w-md">
-              <div
-                class="rounded-lg shadow-sm border dark:border-table-border-dark p-3 flex flex-col min-h-32 dark:bg-gray-800"
-              >
-                <div class="text-base dark:text-table-primary-dark mb-2">
-                  Price Change <i>(Last hour)</i>
-                </div>
-                <div
-                  class="flex items-center text-xl font-semibold py-2"
-                  :class="priceChange1hColorClass"
-                >
-                  <span class="mr-3">
-                    <!-- Up Arrow -->
-                    <svg
-                      v-if="priceChange1hIcon === 1"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      class="h-6 w-6 inline"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M5 10l7-7m0 0l7 7m-7-7v18"
-                      />
-                    </svg>
-                    <!-- Down Arrow -->
-                    <svg
-                      v-else-if="priceChange1hIcon === -1"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      class="h-6 w-6 inline"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M19 14l-7 7m0 0l-7-7m7 7V3"
-                      />
-                    </svg>
-                    <!-- Neutral -->
-                    <span v-else class="text-gray-400 text-xl font-bold"
-                      >=</span
-                    >
-                  </span>
-                  {{ priceChange1h.value }} BC<br />
-                  ({{ priceChange1h.percent }})
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <!-- 24 Hour Price Change Card -->
-          <div v-if="priceChange24h" class="flex justify-center">
-            <div class="w-full max-w-md">
-              <div
-                class="rounded-lg shadow-sm border dark:border-table-border-dark p-3 flex flex-col min-h-32 dark:bg-gray-800"
-              >
-                <div class="text-base dark:text-table-primary-dark mb-2">
-                  Price Change <i>(Last day)</i>
-                </div>
-                <div
-                  class="flex items-center text-xl font-semibold py-2"
-                  :class="priceChange24hColorClass"
-                >
-                  <span class="mr-3">
-                    <!-- Up Arrow -->
-                    <svg
-                      v-if="priceChange24hIcon === 1"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      class="h-6 w-6 inline"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M5 10l7-7m0 0l7 7m-7-7v18"
-                      />
-                    </svg>
-                    <!-- Down Arrow -->
-                    <svg
-                      v-else-if="priceChange24hIcon === -1"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      class="h-6 w-6 inline"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M19 14l-7 7m0 0l-7-7m7 7V3"
-                      />
-                    </svg>
-                    <!-- Neutral -->
-                    <span v-else class="text-gray-400 text-xl font-bold"
-                      >=</span
-                    >
-                  </span>
-                  {{ priceChange24h.value }} BC<br />
-                  ({{ priceChange24h.percent }})
-                </div>
-              </div>
-            </div>
-          </div>
+          <PriceChangeCard
+            v-if="priceChange1h"
+            period="Last hour"
+            :price-change="priceChange1h"
+            :color-class="priceChange1hColorClass"
+            :icon="priceChange1hIcon"
+          />
+
+          <PriceChangeCard
+            v-if="priceChange24h"
+            period="Last day"
+            :price-change="priceChange24h"
+            :color-class="priceChange24hColorClass"
+            :icon="priceChange24hIcon"
+          />
         </div>
       </div>
     </div>
@@ -279,7 +182,8 @@
 </template>
 
 <script setup>
-import LWChart from "../components/LWChart.vue";
+import LWChart from "../components/market/LWChart.vue";
+import PriceChangeCard from "../components/market/PriceChangeCard.vue";
 import { market } from "../composables/market.js";
 import { items } from "../composables/items.js";
 import { ref, onMounted, onUnmounted, watch, computed } from "vue";
@@ -453,7 +357,6 @@ onMounted(async () => {
   }
 });
 
-// Set up interval to refresh data every 5 minutes
 refreshInterval = setInterval(
   () => {
     if (selectedItemId.value) {
