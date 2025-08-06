@@ -61,71 +61,8 @@
     </div>
 
     <!-- Loaded -->
-    <div
-      v-if="currentPet && !petsLoading && !petsLoading"
-      class="bg-card-light dark:bg-card-dark shadow rounded-lg overflow-hidden border border-table-border-light dark:border-table-border-dark"
-    >
-      <div
-        class="p-2 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-900"
-      >
-        <div class="flex items-center justify-between">
-          <div class="flex items-center">
-            <div class="ml-4">
-              <h3
-                class="text-lg font-semibold text-content-primary-light dark:text-content-primary-dark"
-              >
-                {{ currentPet.name }}
-              </h3>
-              <p
-                class="text-sm text-content-secondary-light dark:text-content-secondary-dark"
-              >
-                #{{ currentPet.id }}
-              </p>
-            </div>
-          </div>
-          <div class="text-right">
-            <span
-              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 dark:bg-purple-900 text-badge-purple-light dark:text-badge-purple-dark"
-            >
-              Tier {{ currentPet.tier }}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <div class="px-6 py-4 space-y-4">
-        <div class="grid grid-cols-2 gap-4 text-sm">
-          <div>
-            <dt class="font-medium text-gray-900 dark:text-gray-100">
-              Species
-            </dt>
-            <dd class="text-gray-500 dark:text-gray-400 capitalize">
-              {{ currentPet.species }}
-            </dd>
-          </div>
-          <div>
-            <dt class="font-medium text-gray-900 dark:text-gray-100">
-              Generation
-            </dt>
-            <dd class="text-gray-500 dark:text-gray-400">
-              {{ currentPet.generation }}
-            </dd>
-          </div>
-          <div>
-            <dt class="font-medium text-gray-900 dark:text-gray-100">XP</dt>
-            <dd class="text-gray-500 dark:text-gray-400">
-              {{ currentPet.xp ?? 0 }}
-            </dd>
-          </div>
-          <div>
-            <dt class="font-medium text-gray-900 dark:text-gray-100">
-              Times Bred
-            </dt>
-            <dd class="text-gray-500 dark:text-gray-400">
-              {{ currentPet.timesBred }}
-            </dd>
-          </div>
-        </div>
+    <div v-if="currentPet && !petsLoading && !petsLoading">
+      <PetCard :pet="currentPet" @owner-click="goToOwner" />
 
         <div class="border-t border-gray-100 dark:border-gray-800 pt-4">
           <div class="grid grid-cols-2 gap-4 text-sm">
@@ -262,7 +199,7 @@
 import { ref, watch, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { pets } from "../composables/pets.js";
-import { utils } from "../composables/utils.js";
+import PetCard from "../components/pets/PetCard.vue";
 
 const router = useRouter();
 const route = useRoute();
@@ -271,7 +208,6 @@ const currentPet = ref(null);
 const petId = ref("");
 
 const { petsLoading, petsError, searchPet } = pets();
-const { formatDate, timestampToDaysAgo } = utils();
 
 async function loadPetFromRoute() {
   const id = route.params.id;
